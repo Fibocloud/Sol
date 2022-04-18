@@ -1,2 +1,3 @@
-# sol
-The Sol
+# The Sol
+
+Private cloud solution based on openstack

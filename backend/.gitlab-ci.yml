@@ -1,0 +1,16 @@
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  only:
+    - main
+  script:
+    - cp $ENV "$(pwd)/.env"
+    - docker build -t finance/backend .
+    - docker rm -f finance_backend
+    - docker run -dt -p 8080:8080 --restart always --name finance_backend finance/backend
+    - docker network connect finance_back-tier finance_backend
+    - docker image prune -f
+  tags:
+    - oracle
