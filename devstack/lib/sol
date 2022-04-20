@@ -1,0 +1,181 @@
+#!/bin/bash
+#
+# lib/sol
+# Functions to control the configuration and operation of the sol service
+
+# Dependencies:
+#
+# - ``functions`` file
+# - ``apache`` file
+# - ``SERVICE_{TENANT_NAME|PASSWORD}`` must be defined
+
+# ``stack.sh`` calls the entry points in this order:
+#
+# - install_sol
+# - configure_sol
+# - init_sol
+# - start_sol
+# - stop_sol
+# - cleanup_sol
+
+# Save trace setting
+_XTRACE_SOL=$(set +o | grep xtrace)
+set +o xtrace
+
+
+# Defaults
+# --------
+
+SOL_DIR=$DEST/sol
+
+# Functions
+# ---------
+
+# utility method of setting python option
+function _sol_config_set {
+    local file=$1
+    local section=$2
+    local option=$3
+    local value=$4
+
+    if [ -z "$section" ]; then
+        sed -e "/^$option/d" -i $file
+        echo "$option = $value" >> $file
+    elif grep -q "^$section" $file; then
+        local line
+        line=$(sed -ne "/^$section/,/^}/ { /^ *'$option':/ p; }" $file)
+        if [ -n "$line" ]; then
+            sed -i -e "/^$section/,/^}/ s/^\( *'$option'\) *:.*$/\1: $value,/" $file
+        else
+            sed -i -e "/^$section/a\    '$option': $value," $file
+        fi
+    else
+        echo -e "\n\n$section = {\n    '$option': $value,\n}" >> $file
+    fi
+}
+
+
+
+# Entry Points
+# ------------
+
+# cleanup_sol() - Remove residual data files, anything left over from previous
+# runs that a clean run would need to clean up
+function cleanup_sol {
+    disable_apache_site sol
+    sudo rm -f $(apache_site_config_for sol)
+}
+
+# configure_sol() - Set config files, create data dirs, etc
+function configure_sol {
+    setup_develop $SOL_DIR
+
+    # Compile message catalogs.
+    # Sol is installed as develop mode, so we can compile here.
+    # Message catalog compilation is handled by Django admin script,
+    # so compiling them after the installation avoids Django installation twice.
+    (cd $SOL_DIR; $PYTHON manage.py compilemessages)
+
+    # ``local_settings.py`` is used to override sol default settings.
+    local local_settings=$SOL_DIR/openstack_dashboard/local/local_settings.py
+    cp $SOL_SETTINGS $local_settings
+
+    # Ensure local_setting.py file ends with EOL (newline)
+    echo >> $local_settings
+
+    _sol_config_set $local_settings "" WEBROOT \"$SOL_APACHE_ROOT/\"
+
+    _sol_config_set $local_settings "" COMPRESS_OFFLINE True
+    _sol_config_set $local_settings "" OPENSTACK_KEYSTONE_DEFAULT_ROLE \"member\"
+
+    _sol_config_set $local_settings "" OPENSTACK_HOST \"${KEYSTONE_SERVICE_HOST}\"
+
+    _sol_config_set $local_settings "" OPENSTACK_KEYSTONE_URL "\"${KEYSTONE_SERVICE_URI}/v3\""
+
+    # note(trebskit): if HOST_IP points at non-localhost ip address, sol cannot be accessed
+    # from outside the virtual machine. This fixes is meant primarily for local development
+    # purpose
+    _sol_config_set $local_settings "" ALLOWED_HOSTS [\"*\"]
+
+    if [ -f $SSL_BUNDLE_FILE ]; then
+        _sol_config_set $local_settings "" OPENSTACK_SSL_CACERT \"${SSL_BUNDLE_FILE}\"
+    fi
+
+    if is_service_enabled ldap; then
+        _sol_config_set $local_settings "" OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT "True"
+    fi
+
+    # Create an empty directory that apache uses as docroot
+    sudo mkdir -p $SOL_DIR/.blackhole
+
+    local sol_conf
+    sol_conf=$(apache_site_config_for sol)
+
+    # Configure apache to run sol
+    # Set up the django sol application to serve via apache/wsgi
+    sudo sh -c "sed -e \"
+        s,%USER%,$APACHE_USER,g;
+        s,%GROUP%,$APACHE_GROUP,g;
+        s,%SOL_DIR%,$SOL_DIR,g;
+        s,%APACHE_NAME%,$APACHE_NAME,g;
+        s,%DEST%,$DEST,g;
+        s,%WEBROOT%,$SOL_APACHE_ROOT,g;
+    \" $FILES/apache-sol.template >$sol_conf"
+
+    if is_ubuntu; then
+        disable_apache_site 000-default
+        sudo touch $sol_conf
+    elif is_fedora || is_suse; then
+        : # nothing to do
+    else
+        exit_distro_not_supported "sol apache configuration"
+    fi
+    enable_apache_site sol
+}
+
+# init_sol() - Initialize databases, etc.
+function init_sol {
+    # Remove old log files that could mess with how DevStack detects whether Sol
+    # has been successfully started (see start_sol() and functions::screen_it())
+    # and run_process
+    sudo rm -f /var/log/$APACHE_NAME/sol_*
+
+    # Setup alias for django-admin which could be different depending on distro
+    local django_admin
+    if type -p django-admin > /dev/null; then
+        django_admin=django-admin
+    else
+        django_admin=django-admin.py
+    fi
+
+    # These need to be run after sol plugins are configured.
+    DJANGO_SETTINGS_MODULE=openstack_dashboard.settings $django_admin collectstatic --noinput
+    DJANGO_SETTINGS_MODULE=openstack_dashboard.settings $django_admin compress --force
+
+}
+
+# install_sol() - Collect source and prepare
+function install_sol {
+    # Apache installation, because we mark it NOPRIME
+    install_apache_wsgi
+
+    git_clone $SOL_REPO $SOL_DIR $SOL_BRANCH
+}
+
+# start_sol() - Start running processes
+function start_sol {
+    restart_apache_server
+}
+
+# stop_sol() - Stop running processes
+function stop_sol {
+    stop_apache_server
+}
+
+# Restore xtrace
+$_XTRACE_SOL
+
+# Tell emacs to use shell-script-mode
+## Local variables:
+## mode: shell-script
+## End:
