@@ -740,18 +740,18 @@ fi
 # Swift
 # -----
 
-if is_service_enabled s-proxy; then
-    # We only ask for Swift Hash if we have enabled swift service.
-    # ``SWIFT_HASH`` is a random unique string for a swift cluster that
-    # can never change.
-    # TODO: Uuree changed
-    # read_password SWIFT_HASH "ENTER A RANDOM SWIFT HASH."
+# if is_service_enabled s-proxy; then
+#     # We only ask for Swift Hash if we have enabled swift service.
+#     # ``SWIFT_HASH`` is a random unique string for a swift cluster that
+#     # can never change.
+#     # TODO: Uuree changed
+#     # read_password SWIFT_HASH "ENTER A RANDOM SWIFT HASH."
 
-    if [[ -z "$SWIFT_TEMPURL_KEY" ]] && [[ "$SWIFT_ENABLE_TEMPURLS" == "True" ]]; then
-        # TODO: Uuree changed
-        # read_password SWIFT_TEMPURL_KEY "ENTER A KEY FOR SWIFT TEMPURLS."
-    fi
-fi
+#     if [[ -z "$SWIFT_TEMPURL_KEY" ]] && [[ "$SWIFT_ENABLE_TEMPURLS" == "True" ]]; then
+#         # TODO: Uuree changed
+#         # read_password SWIFT_TEMPURL_KEY "ENTER A KEY FOR SWIFT TEMPURLS."
+#     fi
+# fi
 
 # Save configuration values
 save_stackenv $LINENO
