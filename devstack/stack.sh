@@ -951,11 +951,11 @@ if is_service_enabled placement placement-client; then
     fi
 fi
 
-if is_service_enabled horizon; then
-    # dashboard
-    # TODO: Uuree changed
-    # stack_install_service horizon
-fi
+# if is_service_enabled horizon; then
+#     # dashboard
+#     # TODO: Uuree changed
+#     # stack_install_service horizon
+# fi
 
 if is_service_enabled tls-proxy; then
     fix_system_ca_bundle_path
