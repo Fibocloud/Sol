@@ -708,10 +708,10 @@ fi
 # Rabbit connection info
 # In multi node DevStack, second node needs ``RABBIT_USERID``, but rabbit
 # isn't enabled.
-if is_service_enabled rabbit; then
-    # TODO: Uuree changed
-    # read_password RABBIT_PASSWORD "ENTER A PASSWORD TO USE FOR RABBIT."
-fi
+# if is_service_enabled rabbit; then
+#     # TODO: Uuree changed
+#     # read_password RABBIT_PASSWORD "ENTER A PASSWORD TO USE FOR RABBIT."
+# fi
 
 # Keystone
 # --------
