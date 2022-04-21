@@ -41,12 +41,17 @@ func (i *Keypair) Get(id string) (*keypairs.KeyPair, error) {
 	return keypairs.Get(i.Client, id, nil).Extract()
 }
 
-func (i *Keypair) Create(name string) (*keypairs.KeyPair, error) {
-	return keypairs.Create(i.Client, keypairs.CreateOpts{Name: name}).Extract()
+type KeypairCreateInput struct {
+	Name      string `json:"name" binding:"required"`
+	PublicKey string `json:"public_key"`
 }
 
-func (i *Keypair) Import(name, key string) (*keypairs.KeyPair, error) {
-	return keypairs.Create(i.Client, keypairs.CreateOpts{Name: name, PublicKey: key}).Extract()
+func (i *Keypair) Create(input KeypairCreateInput) (*keypairs.KeyPair, error) {
+	return keypairs.Create(i.Client, keypairs.CreateOpts{
+		Type:      "ssh",
+		Name:      input.Name,
+		PublicKey: input.PublicKey,
+	}).Extract()
 }
 
 func (i *Keypair) Delete(name string) error {

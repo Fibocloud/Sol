@@ -24,23 +24,14 @@ func Connect() {
 		PrepareStmt:            true,
 		SkipDefaultTransaction: true,
 		NamingStrategy: schema.NamingStrategy{
-			TablePrefix: "fin_",
+			TablePrefix: "sol_",
 		},
 	})
 	if err != nil {
 		panic(err.Error())
 	}
 	db.AutoMigrate(
-		&Admin{},
 		&User{},
-		&WorkspaceMember{},
-		&Workspace{},
-		&AccountType{},
-		&Currency{},
-		&Account{},
-		&Category{},
-		&Place{},
-		&Transaction{},
 	)
 	Instance = db
 }

@@ -17,5 +17,7 @@ func Router(app *gin.RouterGroup) {
 	}
 
 	controllers.AuthController{Controller: bc}.Register(app.Group("auth"))
-	controllers.UserController{Controller: bc}.Register(app.Group("user"))
+	controllers.InstanceController{Controller: bc}.Register(app.Group("instance"))
+	controllers.KeypairController{Controller: bc}.Register(app.Group("keypair"))
+	controllers.ImageController{Controller: bc}.Register(app.Group("image"))
 }

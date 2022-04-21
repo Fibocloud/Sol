@@ -30,18 +30,23 @@ func (co AuthController) Register(router *gin.RouterGroup) {
 // @Failure  500  {object}  string
 // @Router   /auth/init [get]
 func (co AuthController) Init(c *gin.Context) {
-	hashPwd, err := utils.GenerateHash("Mongol123@")
+	hashPwd, err := utils.GenerateHash("Mongol123")
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	user := db.Admin{
+	user := db.User{
 		Username: "admin",
 		Password: hashPwd,
+		OSCredential: db.OSCredential{
+			Username: "admin",
+			Password: "Mongol123",
+			TenantID: "a21f9221672d4cf880005b38c1ab458c",
+		},
 	}
 
-	if Total(db.Instance.Model(db.Admin{}).Where(&db.Admin{Username: user.Username})) > 0 {
+	if Total(db.Instance.Model(db.User{}).Where(&db.User{Username: user.Username})) > 0 {
 		c.JSON(http.StatusOK, "OK")
 		return
 	}
@@ -61,8 +66,8 @@ type (
 	}
 
 	LoginResult struct {
-		Token string   `json:"token"`
-		User  db.Admin `json:"user"`
+		Token string  `json:"token"`
+		User  db.User `json:"user"`
 	}
 )
 
@@ -86,8 +91,8 @@ func (co AuthController) Login(c *gin.Context) {
 		return
 	}
 
-	var user db.Admin
-	if err := db.Instance.Where(db.Admin{Username: strings.TrimSpace(params.Username)}).First(&user).Error; err != nil {
+	var user db.User
+	if err := db.Instance.Where(db.User{Username: strings.TrimSpace(params.Username)}).First(&user).Error; err != nil {
 		co.SetError(http.StatusNotFound, "Хэрэглэгчийн нэр эсвэл нууц үг буруу байна")
 		return
 	}
@@ -107,7 +112,7 @@ func (co AuthController) Login(c *gin.Context) {
 // @Summary   Info
 // @Tags      Auth
 // @Security  Authorization
-// @Success   200  {object}  structs.ResponseBody{body=db.Admin}
+// @Success   200  {object}  structs.ResponseBody{body=db.User}
 // @Failure   400  {object}  structs.ResponseBody{body=object}
 // @Failure   401  {object}  structs.ResponseBody{body=object}
 // @Failure   500  {object}  structs.ResponseBody{body=object}

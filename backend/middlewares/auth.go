@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-const authKey string = "admin_auth"
+const authKey string = "user_auth"
 
 func Auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -26,16 +26,16 @@ func Auth() gin.HandlerFunc {
 			return
 		}
 
-		var admin db.Admin
-		if err := db.Instance.First(&admin, claims.ID).Error; err != nil {
+		var user db.User
+		if err := db.Instance.First(&user, claims.ID).Error; err != nil {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, resp)
 			return
 		}
-		c.Set(authKey, &admin)
+		c.Set(authKey, &user)
 		c.Next()
 	}
 }
 
-func GetAuth(c *gin.Context) *db.Admin {
-	return c.MustGet(authKey).(*db.Admin)
+func GetAuth(c *gin.Context) *db.User {
+	return c.MustGet(authKey).(*db.User)
 }
