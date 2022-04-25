@@ -430,7 +430,7 @@ var doc = `{
                 "tags": [
                     "[Admin] User"
                 ],
-                "summary": "User list with pagination",
+                "summary": "User",
                 "parameters": [
                     {
                         "description": "Filter",
@@ -1155,7 +1155,7 @@ var doc = `{
                 "tags": [
                     "[Customer] Account type"
                 ],
-                "summary": "Account type list with pagination",
+                "summary": "Account type",
                 "parameters": [
                     {
                         "description": "Filter",
@@ -1781,7 +1781,7 @@ var doc = `{
                 "tags": [
                     "[Customer] Account"
                 ],
-                "summary": "Account list with pagination",
+                "summary": "Account",
                 "parameters": [
                     {
                         "description": "Filter",
@@ -3042,7 +3042,7 @@ var doc = `{
                 "tags": [
                     "[Customer] Category"
                 ],
-                "summary": "Category list with pagination",
+                "summary": "Category",
                 "parameters": [
                     {
                         "description": "Filter",
@@ -3668,7 +3668,7 @@ var doc = `{
                 "tags": [
                     "[Customer] Currency"
                 ],
-                "summary": "Currency list with pagination",
+                "summary": "Currency",
                 "parameters": [
                     {
                         "description": "Filter",
@@ -4493,7 +4493,7 @@ var doc = `{
                 "tags": [
                     "[Customer] Place"
                 ],
-                "summary": "Place list with pagination",
+                "summary": "Place",
                 "parameters": [
                     {
                         "description": "Filter",
@@ -5122,7 +5122,7 @@ var doc = `{
                 "tags": [
                     "[Customer] Transaction"
                 ],
-                "summary": "Transaction list with pagination",
+                "summary": "Transaction",
                 "parameters": [
                     {
                         "description": "Filter",
@@ -5928,7 +5928,7 @@ var doc = `{
                 "tags": [
                     "[Customer] Workspace"
                 ],
-                "summary": "Workspace list with pagination",
+                "summary": "Workspace",
                 "parameters": [
                     {
                         "description": "Filter",

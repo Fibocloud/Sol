@@ -419,7 +419,7 @@
                 "tags": [
                     "[Admin] User"
                 ],
-                "summary": "User list with pagination",
+                "summary": "User",
                 "parameters": [
                     {
                         "description": "Filter",
@@ -1144,7 +1144,7 @@
                 "tags": [
                     "[Customer] Account type"
                 ],
-                "summary": "Account type list with pagination",
+                "summary": "Account type",
                 "parameters": [
                     {
                         "description": "Filter",
@@ -1770,7 +1770,7 @@
                 "tags": [
                     "[Customer] Account"
                 ],
-                "summary": "Account list with pagination",
+                "summary": "Account",
                 "parameters": [
                     {
                         "description": "Filter",
@@ -3031,7 +3031,7 @@
                 "tags": [
                     "[Customer] Category"
                 ],
-                "summary": "Category list with pagination",
+                "summary": "Category",
                 "parameters": [
                     {
                         "description": "Filter",
@@ -3657,7 +3657,7 @@
                 "tags": [
                     "[Customer] Currency"
                 ],
-                "summary": "Currency list with pagination",
+                "summary": "Currency",
                 "parameters": [
                     {
                         "description": "Filter",
@@ -4482,7 +4482,7 @@
                 "tags": [
                     "[Customer] Place"
                 ],
-                "summary": "Place list with pagination",
+                "summary": "Place",
                 "parameters": [
                     {
                         "description": "Filter",
@@ -5111,7 +5111,7 @@
                 "tags": [
                     "[Customer] Transaction"
                 ],
-                "summary": "Transaction list with pagination",
+                "summary": "Transaction",
                 "parameters": [
                     {
                         "description": "Filter",
@@ -5917,7 +5917,7 @@
                 "tags": [
                     "[Customer] Workspace"
                 ],
-                "summary": "Workspace list with pagination",
+                "summary": "Workspace",
                 "parameters": [
                     {
                         "description": "Filter",

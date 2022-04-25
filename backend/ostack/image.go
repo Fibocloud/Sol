@@ -41,6 +41,6 @@ func (i *Image) Get(id string) (*images.Image, error) {
 	return images.Get(i.Client, id).Extract()
 }
 
-func (i *Image) Delete(name string) error {
-	return images.Delete(i.Client, name).ExtractErr()
+func (i *Image) Delete(id string) error {
+	return images.Delete(i.Client, id).ExtractErr()
 }

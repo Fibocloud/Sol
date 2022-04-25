@@ -37,8 +37,8 @@ func (i *Keypair) List() ([]keypairs.KeyPair, error) {
 	return result, err
 }
 
-func (i *Keypair) Get(id string) (*keypairs.KeyPair, error) {
-	return keypairs.Get(i.Client, id, nil).Extract()
+func (i *Keypair) Get(name string) (*keypairs.KeyPair, error) {
+	return keypairs.Get(i.Client, name, nil).Extract()
 }
 
 type KeypairCreateInput struct {

@@ -20,4 +20,7 @@ func Router(app *gin.RouterGroup) {
 	controllers.InstanceController{Controller: bc}.Register(app.Group("instance"))
 	controllers.KeypairController{Controller: bc}.Register(app.Group("keypair"))
 	controllers.ImageController{Controller: bc}.Register(app.Group("image"))
+	controllers.FlavorController{Controller: bc}.Register(app.Group("flavor"))
+	controllers.NetworkController{Controller: bc}.Register(app.Group("network"))
+	controllers.SecGroupController{Controller: bc}.Register(app.Group("sec_group"))
 }

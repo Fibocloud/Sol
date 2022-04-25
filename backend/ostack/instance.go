@@ -55,7 +55,7 @@ type InstanceCreateInput struct {
 	VolumeSize          int                       `json:"volume_size" binding:"required"`
 	SecurityGroups      []string                  `json:"security_groups" binding:"required"`
 	DeleteOnTermination bool                      `json:"delete_on_termination"`
-	UserData            []byte                    `json:"user_data"`
+	UserData            string                    `json:"user_data"`
 }
 
 func (i *Instance) Create(input InstanceCreateInput) (*servers.Server, error) {
@@ -63,11 +63,11 @@ func (i *Instance) Create(input InstanceCreateInput) (*servers.Server, error) {
 		CreateOptsBuilder: keypairs.CreateOptsExt{
 			KeyName: input.KeypairName,
 			CreateOptsBuilder: servers.CreateOpts{
+				AvailabilityZone: "nova",
 				Name:             input.Name,
 				FlavorRef:        input.FlavorID,
 				SecurityGroups:   input.SecurityGroups,
-				UserData:         input.UserData,
-				AvailabilityZone: "nova",
+				UserData:         []byte(input.UserData),
 				Networks:         []servers.Network{{UUID: input.NetworkID}},
 			},
 		},

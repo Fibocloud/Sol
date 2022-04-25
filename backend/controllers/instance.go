@@ -31,7 +31,7 @@ func (co InstanceController) Register(router *gin.RouterGroup) {
 }
 
 // Instances
-// @Summary   Instance list with pagination
+// @Summary   Instance
 // @Tags      Instance
 // @Security  Authorization
 // @Success   200  {object}  structs.ResponseBody{body=[]interface{}}
@@ -59,8 +59,8 @@ func (co InstanceController) List(c *gin.Context) {
 // @Security  Authorization
 // @Param     id   path      int  true  "Instance ID"
 // @Success   200  {object}  structs.ResponseBody{body=interface{}}
-// @Failure   401  {object}  structs.ResponseBody{body=object}
-// @Failure   500  {object}  structs.ResponseBody{body=object}
+// @Failure   401   {object}  structs.ResponseBody{body=object}
+// @Failure   500   {object}  structs.ResponseBody{body=object}
 // @Router    /instance/get/{id} [get]
 func (co InstanceController) Get(c *gin.Context) {
 	defer func() {
@@ -113,10 +113,10 @@ func (co InstanceController) Create(c *gin.Context) {
 // @Security  Authorization
 // @Param     id     path      int                         true  "Instance ID"
 // @Param     input  body      ostack.InstanceUpdateInput  true  "Input"
-// @Success   200   {object}  structs.ResponseBody{body=structs.SuccessResponse}
+// @Success   200  {object}  structs.ResponseBody{body=structs.SuccessResponse}
 // @Failure   400   {object}  structs.ResponseBody{body=object}
-// @Failure   401   {object}  structs.ResponseBody{body=object}
-// @Failure   500   {object}  structs.ResponseBody{body=object}
+// @Failure   401        {object}  structs.ResponseBody{body=object}
+// @Failure   500        {object}  structs.ResponseBody{body=object}
 // @Router    /instance/update/{id} [put]
 func (co InstanceController) Update(c *gin.Context) {
 	defer func() {
@@ -144,11 +144,11 @@ func (co InstanceController) Update(c *gin.Context) {
 // @Summary   Delete instance
 // @Tags      Instance
 // @Security  Authorization
-// @Param     id   path      int  true  "Instance ID"
-// @Success   200    {object}  structs.ResponseBody{body=structs.SuccessResponse}
-// @Failure   400    {object}  structs.ResponseBody{body=object}
-// @Failure   401    {object}  structs.ResponseBody{body=object}
-// @Failure   500    {object}  structs.ResponseBody{body=object}
+// @Param     id         path      int   true  "Instance ID"
+// @Success   200        {object}  structs.ResponseBody{body=structs.SuccessResponse}
+// @Failure   400        {object}  structs.ResponseBody{body=object}
+// @Failure   401  {object}  structs.ResponseBody{body=object}
+// @Failure   500  {object}  structs.ResponseBody{body=object}
 // @Router    /instance/delete/{id} [delete]
 func (co InstanceController) Delete(c *gin.Context) {
 	defer func() {
@@ -169,12 +169,12 @@ func (co InstanceController) Delete(c *gin.Context) {
 // @Summary   Reboot instance
 // @Tags      Instance
 // @Security  Authorization
-// @Param     id    path      int   true  "Instance ID"
+// @Param     id   path      int  true  "Instance ID"
 // @Param     hard  query     bool  true  "Hard restart"
-// @Success   200    {object}  structs.ResponseBody{body=structs.SuccessResponse}
-// @Failure   400    {object}  structs.ResponseBody{body=object}
-// @Failure   401    {object}  structs.ResponseBody{body=object}
-// @Failure   500    {object}  structs.ResponseBody{body=object}
+// @Success   200   {object}  structs.ResponseBody{body=structs.SuccessResponse}
+// @Failure   400  {object}  structs.ResponseBody{body=object}
+// @Failure   401  {object}  structs.ResponseBody{body=object}
+// @Failure   500  {object}  structs.ResponseBody{body=object}
 // @Router    /instance/reboot/{id} [put]
 func (co InstanceController) Reboot(c *gin.Context) {
 	defer func() {
@@ -196,12 +196,12 @@ func (co InstanceController) Reboot(c *gin.Context) {
 // @Summary   Resize instance
 // @Tags      Instance
 // @Security  Authorization
-// @Param     id    path      int   true  "Instance ID"
-// @Param     flavor_id  path     bool  true  "Flavor ID"
-// @Success   200    {object}  structs.ResponseBody{body=structs.SuccessResponse}
-// @Failure   400    {object}  structs.ResponseBody{body=object}
-// @Failure   401    {object}  structs.ResponseBody{body=object}
-// @Failure   500    {object}  structs.ResponseBody{body=object}
+// @Param     id   path      int  true  "Instance ID"
+// @Param     flavor_id  path      bool  true  "Flavor ID"
+// @Success   200  {object}  structs.ResponseBody{body=structs.SuccessResponse}
+// @Failure   400  {object}  structs.ResponseBody{body=object}
+// @Failure   401  {object}  structs.ResponseBody{body=object}
+// @Failure   500  {object}  structs.ResponseBody{body=object}
 // @Router    /instance/resize/{id}/{flavor_id} [put]
 func (co InstanceController) Resize(c *gin.Context) {
 	defer func() {
@@ -223,11 +223,11 @@ func (co InstanceController) Resize(c *gin.Context) {
 // @Summary   Confirm resize instance
 // @Tags      Instance
 // @Security  Authorization
-// @Param     id    path      int   true  "Instance ID"
-// @Success   200    {object}  structs.ResponseBody{body=structs.SuccessResponse}
-// @Failure   400    {object}  structs.ResponseBody{body=object}
-// @Failure   401    {object}  structs.ResponseBody{body=object}
-// @Failure   500    {object}  structs.ResponseBody{body=object}
+// @Param     id   path      int  true  "Instance ID"
+// @Success   200  {object}  structs.ResponseBody{body=structs.SuccessResponse}
+// @Failure   400  {object}  structs.ResponseBody{body=object}
+// @Failure   401  {object}  structs.ResponseBody{body=object}
+// @Failure   500  {object}  structs.ResponseBody{body=object}
 // @Router    /instance/confirm-resize/{id} [put]
 func (co InstanceController) ConfirmResize(c *gin.Context) {
 	defer func() {
@@ -248,11 +248,11 @@ func (co InstanceController) ConfirmResize(c *gin.Context) {
 // @Summary   Revert resize instance
 // @Tags      Instance
 // @Security  Authorization
-// @Param     id    path      int   true  "Instance ID"
-// @Success   200    {object}  structs.ResponseBody{body=structs.SuccessResponse}
-// @Failure   400    {object}  structs.ResponseBody{body=object}
-// @Failure   401    {object}  structs.ResponseBody{body=object}
-// @Failure   500    {object}  structs.ResponseBody{body=object}
+// @Param     id   path      int  true  "Instance ID"
+// @Success   200  {object}  structs.ResponseBody{body=structs.SuccessResponse}
+// @Failure   400  {object}  structs.ResponseBody{body=object}
+// @Failure   401  {object}  structs.ResponseBody{body=object}
+// @Failure   500  {object}  structs.ResponseBody{body=object}
 // @Router    /instance/revert-resize/{id} [put]
 func (co InstanceController) RevertResize(c *gin.Context) {
 	defer func() {
@@ -273,11 +273,11 @@ func (co InstanceController) RevertResize(c *gin.Context) {
 // @Summary   Start instance
 // @Tags      Instance
 // @Security  Authorization
-// @Param     id    path      int   true  "Instance ID"
-// @Success   200    {object}  structs.ResponseBody{body=structs.SuccessResponse}
-// @Failure   400    {object}  structs.ResponseBody{body=object}
-// @Failure   401    {object}  structs.ResponseBody{body=object}
-// @Failure   500    {object}  structs.ResponseBody{body=object}
+// @Param     id   path      int  true  "Instance ID"
+// @Success   200  {object}  structs.ResponseBody{body=structs.SuccessResponse}
+// @Failure   400  {object}  structs.ResponseBody{body=object}
+// @Failure   401  {object}  structs.ResponseBody{body=object}
+// @Failure   500  {object}  structs.ResponseBody{body=object}
 // @Router    /instance/start/{id} [put]
 func (co InstanceController) Start(c *gin.Context) {
 	defer func() {
@@ -298,11 +298,11 @@ func (co InstanceController) Start(c *gin.Context) {
 // @Summary   Stop instance
 // @Tags      Instance
 // @Security  Authorization
-// @Param     id    path      int   true  "Instance ID"
-// @Success   200    {object}  structs.ResponseBody{body=structs.SuccessResponse}
-// @Failure   400    {object}  structs.ResponseBody{body=object}
-// @Failure   401    {object}  structs.ResponseBody{body=object}
-// @Failure   500    {object}  structs.ResponseBody{body=object}
+// @Param     id   path      int  true  "Instance ID"
+// @Success   200  {object}  structs.ResponseBody{body=structs.SuccessResponse}
+// @Failure   400  {object}  structs.ResponseBody{body=object}
+// @Failure   401  {object}  structs.ResponseBody{body=object}
+// @Failure   500  {object}  structs.ResponseBody{body=object}
 // @Router    /instance/stop/{id} [put]
 func (co InstanceController) Stop(c *gin.Context) {
 	defer func() {
@@ -323,7 +323,7 @@ func (co InstanceController) Stop(c *gin.Context) {
 // @Summary   Resume instance
 // @Tags      Instance
 // @Security  Authorization
-// @Param     id    path      int   true  "Instance ID"
+// @Param     id   path      int  true  "Instance ID"
 // @Success   200    {object}  structs.ResponseBody{body=structs.SuccessResponse}
 // @Failure   400    {object}  structs.ResponseBody{body=object}
 // @Failure   401    {object}  structs.ResponseBody{body=object}

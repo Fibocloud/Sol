@@ -1102,7 +1102,7 @@ paths:
               type: object
       security:
       - Admin: []
-      summary: User list with pagination
+      summary: User
       tags:
       - '[Admin] User'
   /admin/user/password/{id}:
@@ -1478,7 +1478,7 @@ paths:
       security:
       - Customer: []
       - Workspace: []
-      summary: Account type list with pagination
+      summary: Account type
       tags:
       - '[Customer] Account type'
   /customer/account-type/search:
@@ -1800,7 +1800,7 @@ paths:
       security:
       - Customer: []
       - Workspace: []
-      summary: Account list with pagination
+      summary: Account
       tags:
       - '[Customer] Account'
   /customer/account/search:
@@ -2454,7 +2454,7 @@ paths:
       security:
       - Customer: []
       - Workspace: []
-      summary: Category list with pagination
+      summary: Category
       tags:
       - '[Customer] Category'
   /customer/category/search:
@@ -2776,7 +2776,7 @@ paths:
       security:
       - Customer: []
       - Workspace: []
-      summary: Currency list with pagination
+      summary: Currency
       tags:
       - '[Customer] Currency'
   /customer/currency/search:
@@ -3201,7 +3201,7 @@ paths:
       security:
       - Customer: []
       - Workspace: []
-      summary: Place list with pagination
+      summary: Place
       tags:
       - '[Customer] Place'
   /customer/place/search:
@@ -3525,7 +3525,7 @@ paths:
       security:
       - Customer: []
       - Workspace: []
-      summary: Transaction list with pagination
+      summary: Transaction
       tags:
       - '[Customer] Transaction'
   /customer/transaction/search:
@@ -3943,7 +3943,7 @@ paths:
               type: object
       security:
       - Customer: []
-      summary: Workspace list with pagination
+      summary: Workspace
       tags:
       - '[Customer] Workspace'
   /customer/workspace/role/{id}:

@@ -21,7 +21,7 @@ func (co ImageController) Register(router *gin.RouterGroup) {
 }
 
 // Images
-// @Summary   Image list with pagination
+// @Summary   Image
 // @Tags      Image
 // @Security  Authorization
 // @Success   200  {object}  structs.ResponseBody{body=[]interface{}}
@@ -72,10 +72,10 @@ func (co ImageController) Get(c *gin.Context) {
 // @Tags      Image
 // @Security  Authorization
 // @Param     id   path      int  true  "Image ID"
-// @Success   200    {object}  structs.ResponseBody{body=structs.SuccessResponse}
-// @Failure   400    {object}  structs.ResponseBody{body=object}
-// @Failure   401    {object}  structs.ResponseBody{body=object}
-// @Failure   500    {object}  structs.ResponseBody{body=object}
+// @Success   200  {object}  structs.ResponseBody{body=structs.SuccessResponse}
+// @Failure   400  {object}  structs.ResponseBody{body=object}
+// @Failure   401  {object}  structs.ResponseBody{body=object}
+// @Failure   500  {object}  structs.ResponseBody{body=object}
 // @Router    /image/delete/{id} [delete]
 func (co ImageController) Delete(c *gin.Context) {
 	defer func() {
