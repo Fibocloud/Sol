@@ -1,0 +1,30 @@
+export interface Network {
+  bridge: string;
+  bridge_interface: string;
+  broadcast: string;
+  cidr: string;
+  cidr_v6: string;
+  created_at: {};
+  deleted: boolean;
+  deleted_at: {};
+  dhcp_start: string;
+  dns_1: string;
+  dns_2: string;
+  gateway: string;
+  gateway_v6: string;
+  host: string;
+  id: string;
+  injected: boolean;
+  label: string;
+  multi_host: boolean;
+  netmask: string;
+  netmask_v6: string;
+  priority: number;
+  project_id: string;
+  rxtx_base: number;
+  updated_at: {};
+  vlan: number;
+  vpn_private_address: string;
+  vpn_public_address: string;
+  vpn_public_port: number;
+}

@@ -2,37 +2,34 @@ import { default as LogoIcon } from "$/assets/logo.svg";
 import {
   ActionIcon,
   Box,
-  Burger,
   Group,
-  Header,
   Space,
   Title,
   useMantineColorScheme,
-  useMantineTheme,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import React, { Dispatch, FC, SetStateAction } from "react";
+import React, { FC } from "react";
 import { MoonStars, Sun } from "tabler-icons-react";
 
-interface Props {
-  open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
-}
-
-const TopBar: FC<Props> = ({ open, setOpen }) => {
-  const theme = useMantineTheme();
+const NavTop: FC = () => {
   const desktop = useMediaQuery("(min-width: 768px)");
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
-  return !desktop ? (
-    <Header height={48}>
-      <Group sx={{ height: "100%" }} px={24} position="apart">
-        <Burger
-          size="sm"
-          opened={open}
-          color={theme.colors.gray[6]}
-          onClick={() => setOpen((o) => !o)}
-        />
+  return desktop ? (
+    <Box
+      sx={(theme) => ({
+        paddingLeft: theme.spacing.xs,
+        paddingRight: theme.spacing.xs,
+        paddingTop: theme.spacing.lg,
+        paddingBottom: theme.spacing.lg,
+        borderBottom: `1px solid ${
+          theme.colorScheme === "dark"
+            ? theme.colors.dark[4]
+            : theme.colors.gray[2]
+        }`,
+      })}
+    >
+      <Group position="apart">
         <div
           style={{
             display: "inline-flex",
@@ -59,10 +56,10 @@ const TopBar: FC<Props> = ({ open, setOpen }) => {
           {colorScheme === "dark" ? <Sun size={16} /> : <MoonStars size={16} />}
         </ActionIcon>
       </Group>
-    </Header>
+    </Box>
   ) : (
     <></>
   );
 };
 
-export default TopBar;
+export default NavTop;
