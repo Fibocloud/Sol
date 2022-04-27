@@ -48,7 +48,6 @@ type KeypairCreateInput struct {
 
 func (i *Keypair) Create(input KeypairCreateInput) (*keypairs.KeyPair, error) {
 	return keypairs.Create(i.Client, keypairs.CreateOpts{
-		Type:      "ssh",
 		Name:      input.Name,
 		PublicKey: input.PublicKey,
 	}).Extract()

@@ -44,7 +44,7 @@ func (i *Flavor) Get(id string) (*flavors.Flavor, error) {
 type FlavorCreateInput struct {
 	Name       string  `json:"name" binding:"required"`
 	RAM        int     `json:"ram" binding:"required"`
-	VCPUs      int     `json:"vcp_us" binding:"required"`
+	VCPUs      int     `json:"vcpus" binding:"required"`
 	RxTxFactor float64 `json:"rx_tx_factor"`
 	Disk       *int    `json:"disk"`
 	Swap       *int    `json:"swap"`
