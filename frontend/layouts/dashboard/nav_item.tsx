@@ -5,35 +5,35 @@ import React, { FC } from "react";
 export interface NavItemRecord {
   path: string;
   label: string;
-  color: string;
   icon?: JSX.Element;
   active?: boolean;
 }
 
-const NavItem: FC<NavItemRecord> = ({ path, label, color, icon, active }) => (
+const NavItem: FC<NavItemRecord> = ({ path, label, icon, active }) => (
   <Link href={path} passHref>
     <UnstyledButton
       component="a"
       sx={(theme) => {
         let color = theme.black;
-        let bgColor = undefined;
+        let border = "none";
         let bgHover = theme.colors.gray[0];
+        let borderColor = theme.colors[theme.primaryColor][6];
         if (theme.colorScheme === "dark") {
           color = theme.colors.dark[0];
           bgHover = theme.colors.dark[6];
+          borderColor = theme.colors[theme.primaryColor][8];
         }
         if (active) {
-          color = theme.white;
-          bgHover = theme.colors[theme.primaryColor][7];
-          bgColor = theme.colors[theme.primaryColor][8];
+          border = "1px solid";
         }
         return {
-          display: "block",
           width: "100%",
-          padding: theme.spacing.xs,
-          borderRadius: theme.radius.sm,
+          display: "block",
           color: color,
-          backgroundColor: bgColor,
+          border: border,
+          borderColor: borderColor,
+          padding: theme.spacing.xs,
+          borderRadius: theme.radius.md,
           "&:hover": {
             backgroundColor: bgHover,
           },
@@ -42,7 +42,10 @@ const NavItem: FC<NavItemRecord> = ({ path, label, color, icon, active }) => (
     >
       <Group>
         {icon && (
-          <ThemeIcon color={color} variant={active ? "filled" : "light"}>
+          <ThemeIcon
+            color={active ? "teal" : "gray"}
+            variant={active ? "filled" : "light"}
+          >
             {icon}
           </ThemeIcon>
         )}

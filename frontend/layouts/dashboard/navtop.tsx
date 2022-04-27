@@ -5,7 +5,7 @@ import {
   Group,
   Space,
   Title,
-  useMantineColorScheme,
+  useMantineColorScheme
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import React, { FC } from "react";
@@ -22,11 +22,6 @@ const NavTop: FC = () => {
         paddingRight: theme.spacing.xs,
         paddingTop: theme.spacing.lg,
         paddingBottom: theme.spacing.lg,
-        borderBottom: `1px solid ${
-          theme.colorScheme === "dark"
-            ? theme.colors.dark[4]
-            : theme.colors.gray[2]
-        }`,
       })}
     >
       <Group position="apart">

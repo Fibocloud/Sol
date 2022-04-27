@@ -1,20 +1,23 @@
 import {
   Button,
   Group,
-  Paper,
-  Title,
+  Input,
   Loader,
-  Transition,
+  Paper,
   Stack,
+  Title,
+  Transition,
 } from "@mantine/core";
-import React, { FC, PropsWithChildren } from "react";
-import { RotateClockwise2 } from "tabler-icons-react";
+import React, { ChangeEvent, FC, PropsWithChildren } from "react";
+import { RotateClockwise, Search } from "tabler-icons-react";
 
 interface Props {
   title: string;
   loading?: boolean;
   onRefresh?: () => void;
   extra?: React.ReactNode;
+  search?: string;
+  onSearchChange?: (value: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const PageTitle: FC<PropsWithChildren<Props>> = ({
@@ -22,6 +25,8 @@ const PageTitle: FC<PropsWithChildren<Props>> = ({
   onRefresh,
   extra,
   children,
+  search,
+  onSearchChange,
   loading = false,
 }) => {
   return (
@@ -35,14 +40,24 @@ const PageTitle: FC<PropsWithChildren<Props>> = ({
             </Transition>
           </Group>
           <Group>
+            {(search || onSearchChange) && (
+              <Input
+                radius="md"
+                value={search}
+                variant="filled"
+                placeholder="Search..."
+                onChange={onSearchChange}
+                icon={<Search size={16} />}
+              />
+            )}
             {onRefresh && (
               <Button
                 px="xs"
-                radius="lg"
+                radius="md"
                 variant="subtle"
                 onClick={() => onRefresh()}
               >
-                <RotateClockwise2 />
+                <RotateClockwise />
               </Button>
             )}
             {extra}

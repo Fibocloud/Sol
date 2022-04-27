@@ -28,7 +28,7 @@ const ResizeModal: FC<Props> = ({ instance, onClose }) => {
     onSuccess: () => {
       showNotification({ color: "green", message: "Successfully resized" });
       client.invalidateQueries(["instance"]);
-      onClose();
+      handleClose();
     },
     onError: (err: string) => showNotification({ color: "red", message: err }),
   });
@@ -38,12 +38,17 @@ const ResizeModal: FC<Props> = ({ instance, onClose }) => {
     },
   });
 
+  const handleClose = () => {
+    form.reset();
+    onClose();
+  };
+
   return (
     <Modal
       padding="lg"
       title="Create instance"
       opened={!!instance}
-      onClose={onClose}
+      onClose={handleClose}
     >
       <LoadingOverlay visible={resize.isLoading} zIndex={1000} />
       <form
@@ -83,7 +88,7 @@ const ResizeModal: FC<Props> = ({ instance, onClose }) => {
           {...form.getInputProps("flavor_id")}
         />
         <Group mt="lg" position="right">
-          <Button type="reset" variant="outline" onClick={onClose}>
+          <Button type="reset" variant="outline" onClick={handleClose}>
             Cancel
           </Button>
           <Button type="submit">Resize</Button>

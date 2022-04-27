@@ -60,10 +60,10 @@ const useInstanceActions = () => {
         children: (
           <Stack spacing="xs">
             <Text size="sm">
-              Resource ID: <strong>{instance.name}</strong>
+              Virtual server name: <strong>{instance.name}</strong>
             </Text>
             <Text size="sm">
-              Are you sure you want to reboot this instance?
+              Are you sure you want to reboot this virtual server?
             </Text>
           </Stack>
         ),
@@ -82,9 +82,11 @@ const useInstanceActions = () => {
         children: (
           <Stack spacing="xs">
             <Text size="sm">
-              Resource ID: <strong>{instance.name}</strong>
+              Virtual server name: <strong>{instance.name}</strong>
             </Text>
-            <Text size="sm">Are you sure you want to start this instance?</Text>
+            <Text size="sm">
+              Are you sure you want to start this virtual server?
+            </Text>
           </Stack>
         ),
         confirmProps: { color: "green" },
@@ -102,9 +104,11 @@ const useInstanceActions = () => {
         children: (
           <Stack spacing="xs">
             <Text size="sm">
-              Resource ID: <strong>{instance.name}</strong>
+              Virtual server name: <strong>{instance.name}</strong>
             </Text>
-            <Text size="sm">Are you sure you want to stop this instance?</Text>
+            <Text size="sm">
+              Are you sure you want to stop this virtual server?
+            </Text>
           </Stack>
         ),
         confirmProps: { color: "orange" },
@@ -122,10 +126,10 @@ const useInstanceActions = () => {
         children: (
           <Stack spacing="xs">
             <Text size="sm">
-              Resource ID: <strong>{instance.name}</strong>
+              Virtual server name: <strong>{instance.name}</strong>
             </Text>
             <Text size="sm">
-              Are you sure you want to resume this instance?
+              Are you sure you want to resume this virtual server?
             </Text>
           </Stack>
         ),
@@ -144,10 +148,10 @@ const useInstanceActions = () => {
         children: (
           <Stack spacing="xs">
             <Text size="sm">
-              Resource ID: <strong>{instance.name}</strong>
+              Virtual server name: <strong>{instance.name}</strong>
             </Text>
             <Text size="sm">
-              Are you sure you want to suspend this instance?
+              Are you sure you want to suspend this virtual server?
             </Text>
           </Stack>
         ),
@@ -169,8 +173,8 @@ const useInstanceActions = () => {
               Server name: <strong>{instance.name}</strong>
             </Text>
             <Text size="sm">
-              Are you sure you want to delete this instance? This action is
-              irreversible.
+              Are you sure you want to delete this virtual server? This action
+              is irreversible.
             </Text>
           </Stack>
         ),

@@ -12,10 +12,10 @@ export interface Flavor {
 export interface CreateFlavorInput {
   name: string;
   ram: number;
-  vcp_us: number;
+  vcpus: number;
   rx_tx_factor: number;
-  disk: number;
-  swap: number;
-  is_public: boolean;
-  ephemeral: number;
+  disk?: number;
+  swap?: number;
+  is_public?: boolean;
+  ephemeral?: number;
 }

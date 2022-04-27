@@ -9,5 +9,5 @@ export interface Keypair {
 
 export interface CreateKeypairInput {
   name: string;
-  public_key: string;
+  public_key?: string;
 }

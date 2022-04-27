@@ -1,18 +1,18 @@
 import { useStore } from "$/contexts";
 import { Action } from "$/contexts/types";
 import {
-  Avatar,
   Box,
   Group,
   Menu,
   Text,
+  ThemeIcon,
   UnstyledButton,
   useMantineTheme,
 } from "@mantine/core";
 import { useModals } from "@mantine/modals";
 import { useRouter } from "next/router";
 import React, { FC } from "react";
-import { ChevronRight, Logout } from "tabler-icons-react";
+import { ChevronRight, Logout, User } from "tabler-icons-react";
 
 const Profile: FC = () => {
   const router = useRouter();
@@ -69,10 +69,9 @@ const Profile: FC = () => {
             }}
           >
             <Group>
-              <Avatar
-                src="https://static.swatch.com/images/product/SO33M100/sa200/SO33M100_sa200_er005.png"
-                radius="xl"
-              />
+              <ThemeIcon variant="filled" size="lg">
+                <User />
+              </ThemeIcon>
               <Box sx={{ flex: 1 }}>
                 <Text size="sm" weight={500}>
                   {auth?.username}

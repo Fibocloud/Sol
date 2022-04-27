@@ -1,10 +1,11 @@
 import LinkButton from "$/components/link_button";
 import PageTitle from "$/components/page_title";
 import Table from "$/components/table";
+import useSearch from "$/hooks/useSearch";
 import FLAVOR from "$/services/flavor";
 import INSTANCE from "$/services/instances";
 import { Instance } from "$/services/instances/types";
-import { isProcessing } from "$/utils";
+import { isProcessing, textSearch } from "$/utils";
 import useInstanceActions from "$/widgets/instance/actions";
 import CreateModal from "$/widgets/instance/create";
 import ResizeModal from "$/widgets/instance/resize";
@@ -28,6 +29,7 @@ import {
 } from "tabler-icons-react";
 
 const Instances: NextPage = () => {
+  const [search, setSearch] = useSearch();
   const [create, setCreate] = useState(false);
   const [resize, setResize] = useState<Instance>();
   const { remove, reboot, start, stop, resume, suspend } = useInstanceActions();
@@ -36,8 +38,11 @@ const Instances: NextPage = () => {
     refetchInterval: 3000,
   });
   const data = useMemo<Instance[]>(
-    () => instances.data ?? [],
-    [instances.data]
+    () =>
+      (instances.data || []).filter(
+        (i) => i.id === search || textSearch(i.name, search)
+      ),
+    [instances.data, search]
   );
 
   const columns = useMemo<Column<Instance>[]>(
@@ -83,7 +88,7 @@ const Instances: NextPage = () => {
           }
           return (
             <LinkButton
-              to={`/dashboard/flavor?id=${record.flavor.id}`}
+              to={`/dashboard/flavor?q=${record.flavor.id}`}
               label={
                 flavors.data?.find((i) => i.id === record.flavor?.id)?.name ||
                 "not found"
@@ -100,7 +105,7 @@ const Instances: NextPage = () => {
             {record.security_groups?.map((item) => (
               <LinkButton
                 key={item.name}
-                to={`/dashboard/sec_group?id=${item.name}`}
+                to={`/dashboard/sec_group?q=${item.name}`}
                 label={item.name}
               />
             ))}
@@ -189,12 +194,14 @@ const Instances: NextPage = () => {
   return (
     <>
       <PageTitle
-        title="Servers"
+        title="Virtual servers"
         loading={instances.isFetching}
         onRefresh={instances.refetch}
+        search={search}
+        onSearchChange={setSearch}
         extra={
           <Button
-            radius="lg"
+            radius="md"
             variant="outline"
             leftIcon={<CodePlus />}
             onClick={() => setCreate(true)}

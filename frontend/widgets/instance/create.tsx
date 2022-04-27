@@ -43,12 +43,12 @@ const CreateModal: FC<Props> = ({ visible, onClose }) => {
   const flavors = useQuery(["flavor", "list"], FLAVOR.list);
   const networks = useQuery(["network", "list"], NETWORK.list);
   const keypairs = useQuery(["keypair", "list"], KEYPAIR.list);
-  const secgroups = useQuery(["sec_group", "list"], SEC_GROUP.list);
+  const secgroups = useQuery(["secgroup", "list"], SEC_GROUP.list);
   const create = useMutation(INSTANCE.create, {
     onSuccess: () => {
       showNotification({ color: "green", message: "Successfully created" });
       client.invalidateQueries(["instance"]);
-      onClose();
+      handleClose();
     },
     onError: (err: string) => showNotification({ color: "red", message: err }),
   });
@@ -66,13 +66,18 @@ const CreateModal: FC<Props> = ({ visible, onClose }) => {
     },
   });
 
+  const handleClose = () => {
+    form.reset();
+    onClose();
+  };
+
   return (
     <Modal
       size="xl"
       padding="lg"
-      title="Create server"
+      title="Create virtual server"
       opened={visible}
-      onClose={onClose}
+      onClose={handleClose}
     >
       <LoadingOverlay visible={create.isLoading} zIndex={1000} />
       <form onSubmit={form.onSubmit(create.mutate)}>
@@ -181,7 +186,7 @@ const CreateModal: FC<Props> = ({ visible, onClose }) => {
           </InputWrapper>
         </SimpleGrid>
         <Group mt="lg" position="right">
-          <Button type="reset" variant="outline" onClick={onClose}>
+          <Button type="reset" variant="outline" onClick={handleClose}>
             Cancel
           </Button>
           <Button type="submit">Submit</Button>
