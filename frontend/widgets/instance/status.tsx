@@ -1,17 +1,30 @@
-import INSTANCE from "$/services/instances";
-import { Instance, InstanceStatus } from "$/services/instances/types";
+import { Instance } from "$/services/instances/types";
 import { Badge, Loader } from "@mantine/core";
-import { useModals } from "@mantine/modals";
-import { showNotification } from "@mantine/notifications";
-import React, { FC, useCallback } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { m } from "framer-motion";
+import React, { FC } from "react";
 import ResizeConfirm from "./resize_confirm";
 
 interface Props {
   instance: Instance;
 }
 
-const Status: FC<Props> = ({ instance }) => {
+const Status: FC<Props> = (props) => {
+  return (
+    <m.div
+      initial="hidden"
+      animate="visible"
+      key={props.instance.status}
+      variants={{
+        visible: { opacity: 1, x: 0 },
+        hidden: { opacity: 0, x: -16 },
+      }}
+    >
+      <_Status {...props} />
+    </m.div>
+  );
+};
+
+const _Status: FC<Props> = ({ instance }) => {
   switch (instance.status) {
     case "ACTIVE":
       return (

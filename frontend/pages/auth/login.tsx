@@ -12,6 +12,7 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { showNotification } from "@mantine/notifications";
+import { m } from "framer-motion";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import React from "react";
@@ -40,44 +41,50 @@ const Login: NextPage = () => {
   });
 
   return (
-    <Paper
-      withBorder
-      mx="sm"
-      p="lg"
-      shadow="lg"
-      style={{
-        width: "100%",
-        maxWidth: 382,
-        position: "relative",
+    <m.div
+      initial="hidden"
+      animate="visible"
+      style={{ width: "100%", maxWidth: 382 }}
+      variants={{
+        visible: { opacity: 1, x: 0 },
+        hidden: { opacity: 0, x: -16 },
       }}
     >
-      <LoadingOverlay visible={login.isLoading} zIndex={1000} />
-      <form onSubmit={form.onSubmit(login.mutate)}>
-        <TextInput
-          required
-          icon={<User />}
-          label="Username"
-          placeholder="Username"
-          {...form.getInputProps("username")}
-        />
-        <PasswordInput
-          mt="md"
-          required
-          label="Password"
-          icon={<LockOpen />}
-          placeholder="Password"
-          {...form.getInputProps("password")}
-        />
-        <Checkbox
-          mt="md"
-          label="Remember me"
-          {...form.getInputProps("remember", { type: "checkbox" })}
-        />
-        <Button mt="md" fullWidth type="submit">
-          Login
-        </Button>
-      </form>
-    </Paper>
+      <Paper
+        withBorder
+        mx="sm"
+        p="lg"
+        shadow="lg"
+        style={{ position: "relative" }}
+      >
+        <LoadingOverlay visible={login.isLoading} zIndex={1000} />
+        <form onSubmit={form.onSubmit(login.mutate)}>
+          <TextInput
+            required
+            icon={<User />}
+            label="Username"
+            placeholder="Username"
+            {...form.getInputProps("username")}
+          />
+          <PasswordInput
+            mt="md"
+            required
+            label="Password"
+            icon={<LockOpen />}
+            placeholder="Password"
+            {...form.getInputProps("password")}
+          />
+          <Checkbox
+            mt="md"
+            label="Remember me"
+            {...form.getInputProps("remember", { type: "checkbox" })}
+          />
+          <Button mt="md" fullWidth type="submit">
+            Login
+          </Button>
+        </form>
+      </Paper>
+    </m.div>
   );
 };
 

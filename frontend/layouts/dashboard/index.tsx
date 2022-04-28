@@ -2,21 +2,8 @@ import { useStore } from "$/contexts";
 import { AppShell, useMantineTheme } from "@mantine/core";
 import { Router } from "next/router";
 import React, { FC, PropsWithChildren, useEffect, useState } from "react";
-import {
-  AlertCircle,
-  Database,
-  GitPullRequest,
-  Messages,
-} from "tabler-icons-react";
 import NavBar from "./navbar";
 import TopBar from "./topbar";
-
-const data = [
-  { icon: <GitPullRequest size={16} />, color: "blue", label: "Pull Requests" },
-  { icon: <AlertCircle size={16} />, color: "teal", label: "Open Issues" },
-  { icon: <Messages size={16} />, color: "violet", label: "Discussions" },
-  { icon: <Database size={16} />, color: "grape", label: "Databases" },
-];
 
 interface Props {
   router: Router;

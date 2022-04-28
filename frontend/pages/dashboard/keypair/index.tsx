@@ -1,5 +1,6 @@
 import PageTitle from "$/components/page_title";
 import Table from "$/components/table";
+import useCreate from "$/hooks/useCreate";
 import useSearch from "$/hooks/useSearch";
 import KEYPAIR from "$/services/keypair";
 import { Keypair } from "$/services/keypair/types";
@@ -18,7 +19,7 @@ const Keypairs: NextPage = () => {
   const modals = useModals();
   const client = useQueryClient();
   const [search, setSearch] = useSearch();
-  const [create, setCreate] = useState(false);
+  const [create, setCreate] = useCreate();
   const keypairs = useQuery(["keypair", "list"], KEYPAIR.list);
   const data = useMemo<Keypair[]>(
     () => (keypairs.data || []).filter((i) => textSearch(i.name, search)),

@@ -1,6 +1,7 @@
 import LinkButton from "$/components/link_button";
 import PageTitle from "$/components/page_title";
 import Table from "$/components/table";
+import useCreate from "$/hooks/useCreate";
 import useSearch from "$/hooks/useSearch";
 import FLAVOR from "$/services/flavor";
 import INSTANCE from "$/services/instances";
@@ -30,7 +31,7 @@ import {
 
 const Instances: NextPage = () => {
   const [search, setSearch] = useSearch();
-  const [create, setCreate] = useState(false);
+  const [create, setCreate] = useCreate();
   const [resize, setResize] = useState<Instance>();
   const { remove, reboot, start, stop, resume, suspend } = useInstanceActions();
   const flavors = useQuery(["flavor", "list"], FLAVOR.list);

@@ -8,6 +8,7 @@ import {
 import { useColorScheme } from "@mantine/hooks";
 import { ModalsProvider } from "@mantine/modals";
 import { NotificationsProvider } from "@mantine/notifications";
+import { domAnimation, LazyMotion } from "framer-motion";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import React, { useState } from "react";
@@ -37,33 +38,35 @@ function MyApp({ Component, pageProps, router }: AppProps) {
         />
       </Head>
       <QueryClientProvider client={queryClient}>
-        <ColorSchemeProvider
-          colorScheme={colorScheme}
-          toggleColorScheme={toggleColorScheme}
-        >
-          <MantineProvider
-            withGlobalStyles
-            withNormalizeCSS
-            theme={{
-              colorScheme,
-              loader: "dots",
-              primaryColor: "teal",
-              fontFamily: "'JetBrains Mono', monospace",
-              fontFamilyMonospace: "'JetBrains Mono', monospace",
-              headings: { fontFamily: "'JetBrains Mono', monospace" },
-            }}
+        <LazyMotion strict features={domAnimation}>
+          <ColorSchemeProvider
+            colorScheme={colorScheme}
+            toggleColorScheme={toggleColorScheme}
           >
-            <NotificationsProvider autoClose={2000} position="top-center">
-              <StoreProvider>
-                <ModalsProvider>
-                  <LayoutProvider router={router}>
-                    <Component {...pageProps} />
-                  </LayoutProvider>
-                </ModalsProvider>
-              </StoreProvider>
-            </NotificationsProvider>
-          </MantineProvider>
-        </ColorSchemeProvider>
+            <MantineProvider
+              withGlobalStyles
+              withNormalizeCSS
+              theme={{
+                colorScheme,
+                loader: "dots",
+                primaryColor: "teal",
+                fontFamily: "'JetBrains Mono', monospace",
+                fontFamilyMonospace: "'JetBrains Mono', monospace",
+                headings: { fontFamily: "'JetBrains Mono', monospace" },
+              }}
+            >
+              <NotificationsProvider autoClose={2000} position="top-center">
+                <StoreProvider>
+                  <ModalsProvider>
+                    <LayoutProvider router={router}>
+                      <Component {...pageProps} />
+                    </LayoutProvider>
+                  </ModalsProvider>
+                </StoreProvider>
+              </NotificationsProvider>
+            </MantineProvider>
+          </ColorSchemeProvider>
+        </LazyMotion>
       </QueryClientProvider>
     </>
   );

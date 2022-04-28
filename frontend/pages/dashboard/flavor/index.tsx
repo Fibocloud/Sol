@@ -1,6 +1,7 @@
 import BooleanStatus from "$/components/boolean_status";
 import PageTitle from "$/components/page_title";
 import Table from "$/components/table";
+import useCreate from "$/hooks/useCreate";
 import useSearch from "$/hooks/useSearch";
 import FLAVOR from "$/services/flavor";
 import { Flavor } from "$/services/flavor/types";
@@ -10,7 +11,7 @@ import { Button, Menu, Stack, Text } from "@mantine/core";
 import { useModals } from "@mantine/modals";
 import { showNotification } from "@mantine/notifications";
 import type { NextPage } from "next";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Column } from "react-table";
 import { CodePlus, Trash } from "tabler-icons-react";
@@ -19,7 +20,7 @@ const Flavors: NextPage = () => {
   const modals = useModals();
   const client = useQueryClient();
   const [search, setSearch] = useSearch();
-  const [create, setCreate] = useState(false);
+  const [create, setCreate] = useCreate();
   const flavors = useQuery(["flavor", "list"], FLAVOR.list);
   const data = useMemo<Flavor[]>(
     () =>

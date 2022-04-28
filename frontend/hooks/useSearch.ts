@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 
 const useSearch = (
   key = "q"
@@ -7,19 +7,27 @@ const useSearch = (
   const router = useRouter();
   const q = router.query[key];
   const [keyword, setKeyword] = useState(typeof q === "string" ? q : "");
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    router.push(
-      {
-        pathname: router.pathname,
-        query: { ...router.query, q: e.target.value },
-      },
-      undefined,
-      {
-        shallow: true,
-      }
-    );
-    setKeyword(e.target.value);
-  };
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      router.push(
+        {
+          pathname: router.pathname,
+          query: { ...router.query, [key]: e.target.value },
+        },
+        undefined,
+        {
+          shallow: true,
+        }
+      );
+    },
+    [router, key]
+  );
+  useEffect(() => {
+    if (typeof router.query[key] !== "undefined") {
+      const u = router.query[key];
+      setKeyword(typeof u === "string" ? u : "");
+    }
+  }, [key, router.query]);
   return [keyword, handleChange];
 };
 

@@ -5,8 +5,9 @@ import {
   Select,
   Space,
   Stack,
-  Table as MantineTable,
+  Table as MantineTable
 } from "@mantine/core";
+import { m } from "framer-motion";
 import React from "react";
 import { Column, usePagination, useTable } from "react-table";
 
@@ -61,13 +62,22 @@ const Table = <T extends object = {}>({
           {page.map((row) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()} key={row.id}>
+              <m.tr
+                {...row.getRowProps()}
+                key={row.id}
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  visible: { opacity: 1, x: 0 },
+                  hidden: { opacity: 0, x: -16 },
+                }}
+              >
                 {row.cells.map((cell, cellInd) => (
                   <td {...cell.getCellProps()} key={cellInd}>
                     {cell.render("Cell")}
                   </td>
                 ))}
-              </tr>
+              </m.tr>
             );
           })}
         </tbody>

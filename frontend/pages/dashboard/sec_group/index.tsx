@@ -1,5 +1,6 @@
 import PageTitle from "$/components/page_title";
 import Table from "$/components/table";
+import useCreate from "$/hooks/useCreate";
 import useSearch from "$/hooks/useSearch";
 import SEC_GROUP from "$/services/sec_group";
 import { SecGroup } from "$/services/sec_group/types";
@@ -18,7 +19,7 @@ const SecGroups: NextPage = () => {
   const modals = useModals();
   const client = useQueryClient();
   const [search, setSearch] = useSearch();
-  const [create, setCreate] = useState(false);
+  const [create, setCreate] = useCreate();
   const secgroups = useQuery(["secgroup", "list"], SEC_GROUP.list);
   const data = useMemo<SecGroup[]>(
     () =>
