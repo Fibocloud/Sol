@@ -2,7 +2,7 @@ basePath: /api/v1
 consumes:
 - application/json
 definitions:
-  admin.LoginInput:
+  controllers.LoginInput:
     properties:
       password:
         type: string
@@ -12,821 +12,111 @@ definitions:
     - password
     - username
     type: object
-  admin.LoginResult:
-    properties:
-      token:
-        type: string
-      user:
-        $ref: '#/definitions/db.Admin'
-    type: object
-  admin.UserListInput:
-    properties:
-      email:
-        type: string
-      enable:
-        type: boolean
-      firstname:
-        type: string
-      lastname:
-        type: string
-      limit:
-        example: 20
-        type: integer
-      page:
-        example: 0
-        type: integer
-      sorter:
-        $ref: '#/definitions/structs.Sorter'
-    type: object
-  admin.UserPasswordInput:
-    properties:
-      password:
-        type: string
-    required:
-    - password
-    type: object
-  admin.UserStatusInput:
-    properties:
-      enable:
-        type: boolean
-    type: object
-  customer.AccountCreateInput:
-    properties:
-      avatar:
-        type: string
-      currency_id:
-        type: integer
-      initial_balance:
-        type: number
-      name:
-        type: string
-      type_id:
-        type: integer
-    required:
-    - currency_id
-    - name
-    - type_id
-    type: object
-  customer.AccountListInput:
-    properties:
-      currency_id:
-        type: integer
-      enable:
-        type: boolean
-      limit:
-        example: 20
-        type: integer
-      name:
-        type: string
-      owner_id:
-        type: integer
-      page:
-        example: 0
-        type: integer
-      sorter:
-        $ref: '#/definitions/structs.Sorter'
-      type_id:
-        type: integer
-    type: object
-  customer.AccountTypeCreateInput:
-    properties:
-      avatar:
-        type: string
-      name:
-        type: string
-    required:
-    - name
-    type: object
-  customer.AccountTypeListInput:
-    properties:
-      limit:
-        example: 20
-        type: integer
-      name:
-        type: string
-      page:
-        example: 0
-        type: integer
-      sorter:
-        $ref: '#/definitions/structs.Sorter'
-    type: object
-  customer.AccountTypeUpdateInput:
-    properties:
-      avatar:
-        type: string
-      name:
-        type: string
-    required:
-    - name
-    type: object
-  customer.AccountUpdateInput:
-    properties:
-      avatar:
-        type: string
-      currency_id:
-        type: integer
-      enable:
-        type: boolean
-      initial_balance:
-        type: number
-      name:
-        type: string
-      type_id:
-        type: integer
-    required:
-    - currency_id
-    - name
-    - type_id
-    type: object
-  customer.CategoryCreateInput:
-    properties:
-      avatar:
-        type: string
-      name:
-        type: string
-      type:
-        type: string
-    required:
-    - name
-    - type
-    type: object
-  customer.CategoryListInput:
-    properties:
-      is_fee:
-        type: boolean
-      limit:
-        example: 20
-        type: integer
-      name:
-        type: string
-      page:
-        example: 0
-        type: integer
-      sorter:
-        $ref: '#/definitions/structs.Sorter'
-      type:
-        type: string
-    type: object
-  customer.CategoryUpdateInput:
-    properties:
-      avatar:
-        type: string
-      name:
-        type: string
-      type:
-        type: string
-    required:
-    - name
-    - type
-    type: object
-  customer.CurrencyCreateInput:
-    properties:
-      name:
-        type: string
-      short:
-        type: string
-      symbol:
-        type: string
-    required:
-    - name
-    - short
-    - symbol
-    type: object
-  customer.CurrencyListInput:
-    properties:
-      limit:
-        example: 20
-        type: integer
-      name:
-        type: string
-      page:
-        example: 0
-        type: integer
-      short:
-        type: string
-      sorter:
-        $ref: '#/definitions/structs.Sorter'
-      symbol:
-        type: string
-    type: object
-  customer.CurrencyUpdateInput:
-    properties:
-      name:
-        type: string
-      short:
-        type: string
-      symbol:
-        type: string
-    required:
-    - name
-    - short
-    - symbol
-    type: object
-  customer.FilePresignedInput:
-    properties:
-      extension:
-        type: string
-      name:
-        type: string
-      type:
-        type: string
-    required:
-    - extension
-    - name
-    - type
-    type: object
-  customer.FilePresignedResponse:
-    properties:
-      host:
-        type: string
-      path:
-        type: string
-      query:
-        type: string
-    type: object
-  customer.FileWorkspacePresignedInput:
-    properties:
-      extension:
-        type: string
-      name:
-        type: string
-      type:
-        type: string
-    required:
-    - extension
-    - name
-    - type
-    type: object
-  customer.FileWorkspacePresignedResponse:
-    properties:
-      host:
-        type: string
-      path:
-        type: string
-      query:
-        type: string
-    type: object
-  customer.LoginInput:
-    properties:
-      email:
-        type: string
-      password:
-        type: string
-    required:
-    - email
-    - password
-    type: object
-  customer.LoginResult:
+  controllers.LoginResult:
     properties:
       token:
         type: string
       user:
         $ref: '#/definitions/db.User'
     type: object
-  customer.PlaceCreateInput:
+  db.OSCredential:
     properties:
-      avatar:
-        type: string
-      description:
-        type: string
-      location:
-        type: string
-      name:
-        type: string
-    required:
-    - name
-    type: object
-  customer.PlaceListInput:
-    properties:
-      description:
-        type: string
-      limit:
-        example: 20
-        type: integer
-      name:
-        type: string
-      page:
-        example: 0
-        type: integer
-      sorter:
-        $ref: '#/definitions/structs.Sorter'
-    type: object
-  customer.PlaceUpdateInput:
-    properties:
-      avatar:
-        type: string
-      description:
-        type: string
-      location:
-        type: string
-      name:
-        type: string
-    required:
-    - name
-    type: object
-  customer.ResetInput:
-    properties:
-      code:
-        type: string
       password:
         type: string
-    required:
-    - code
-    - password
-    type: object
-  customer.SignupInput:
-    properties:
-      email:
+      tenant_id:
         type: string
-      firstname:
-        type: string
-      lastname:
-        type: string
-      password:
-        type: string
-    required:
-    - email
-    - firstname
-    - lastname
-    - password
-    type: object
-  customer.SignupResult:
-    properties:
-      token:
-        type: string
-      user:
-        $ref: '#/definitions/db.User'
-    type: object
-  customer.TransactionCreateInput:
-    properties:
-      account_id:
-        type: integer
-      amount:
-        type: number
-      category_id:
-        type: integer
-      date:
-        type: string
-      description:
-        type: string
-      fee:
-        type: number
-      fee_category_id:
-        type: integer
-      has_fee:
-        type: boolean
-      place_id:
-        type: integer
-      target_account_id:
-        type: integer
-      type:
-        type: string
-    required:
-    - account_id
-    - amount
-    - date
-    - description
-    - type
-    type: object
-  customer.TransactionListInput:
-    properties:
-      account_id:
-        type: integer
-      category_id:
-        type: integer
-      date:
-        type: string
-      description:
-        type: string
-      limit:
-        example: 20
-        type: integer
-      page:
-        example: 0
-        type: integer
-      place_id:
-        type: integer
-      sorter:
-        $ref: '#/definitions/structs.Sorter'
-      type:
+      username:
         type: string
     type: object
-  customer.TransactionListRecord:
+  db.User:
     properties:
-      date:
-        type: string
-      total:
-        type: number
-      transactions:
-        items:
-          $ref: '#/definitions/db.Transaction'
-        type: array
-    type: object
-  customer.TransactionUpdateInput:
-    properties:
-      account_id:
-        type: integer
-      amount:
-        type: number
-      category_id:
-        type: integer
-      date:
-        type: string
-      description:
-        type: string
-      place_id:
-        type: integer
-      type:
-        type: string
-    required:
-    - account_id
-    - amount
-    - category_id
-    - date
-    - description
-    - type
-    type: object
-  customer.UpdatePasswordParamInput:
-    properties:
-      new_password:
-        type: string
-      old_password:
-        type: string
-    required:
-    - new_password
-    - old_password
-    type: object
-  customer.UpdateProfileInput:
-    properties:
-      avatar:
-        type: string
-      firstname:
-        type: string
-      lastname:
-        type: string
-    required:
-    - avatar
-    - firstname
-    - lastname
-    type: object
-  customer.WorkspaceCreateInput:
-    properties:
-      avatar:
-        type: string
-      description:
-        type: string
-      name:
-        type: string
-    required:
-    - name
-    type: object
-  customer.WorkspaceListInput:
-    properties:
-      description:
-        type: string
-      limit:
-        example: 20
-        type: integer
-      name:
-        type: string
-      page:
-        example: 0
-        type: integer
-      sorter:
-        $ref: '#/definitions/structs.Sorter'
-    type: object
-  customer.WorkspaceRoleInput:
-    properties:
-      admin:
-        type: boolean
-    type: object
-  customer.WorkspaceUpdateInput:
-    properties:
-      avatar:
-        type: string
-      description:
-        type: string
-      name:
-        type: string
-    required:
-    - name
-    type: object
-  db.Account:
-    properties:
-      avatar:
-        type: string
-      balance:
-        type: number
       created_at:
         type: string
-      currency:
-        $ref: '#/definitions/db.Currency'
-      currency_id:
-        type: integer
       enable:
         type: boolean
-      expense_balance:
-        type: number
       id:
         type: integer
-      income_balance:
-        type: number
-      initial_balance:
-        type: number
-      name:
+      last_login_date:
         type: string
-      owner:
-        $ref: '#/definitions/db.User'
-      owner_id:
-        type: integer
-      transactions:
-        items:
-          $ref: '#/definitions/db.Transaction'
-        type: array
-      type:
-        $ref: '#/definitions/db.AccountType'
-      type_id:
-        type: integer
-      updated_at:
-        type: string
-      workspace:
-        $ref: '#/definitions/db.Workspace'
-      workspace_id:
-        type: integer
-    type: object
-  db.AccountType:
-    properties:
-      accounts:
-        items:
-          $ref: '#/definitions/db.Account'
-        type: array
-      avatar:
-        type: string
-      created_at:
-        type: string
-      id:
-        type: integer
-      meta:
-        $ref: '#/definitions/db.Meta'
-      name:
-        type: string
-      updated_at:
-        type: string
-      workspace:
-        $ref: '#/definitions/db.Workspace'
-      workspace_id:
-        type: integer
-    type: object
-  db.Admin:
-    properties:
-      created_at:
-        type: string
-      id:
-        type: integer
+      os_credentail:
+        $ref: '#/definitions/db.OSCredential'
       updated_at:
         type: string
       username:
         type: string
     type: object
-  db.Category:
+  ostack.FlavorCreateInput:
     properties:
-      avatar:
-        type: string
-      created_at:
-        type: string
-      id:
+      disk:
         type: integer
-      is_fee:
+      ephemeral:
+        type: integer
+      is_public:
         type: boolean
-      meta:
-        $ref: '#/definitions/db.Meta'
       name:
         type: string
-      transactions:
-        items:
-          $ref: '#/definitions/db.Transaction'
-        type: array
-      type:
-        type: string
-      updated_at:
-        type: string
-      workspace:
-        $ref: '#/definitions/db.Workspace'
-      workspace_id:
+      ram:
         type: integer
-    type: object
-  db.Currency:
-    properties:
-      accounts:
-        items:
-          $ref: '#/definitions/db.Account'
-        type: array
-      created_at:
-        type: string
-      id:
-        type: integer
-      meta:
-        $ref: '#/definitions/db.Meta'
-      name:
-        type: string
-      short:
-        type: string
-      symbol:
-        type: string
-      updated_at:
-        type: string
-      workspace:
-        $ref: '#/definitions/db.Workspace'
-      workspace_id:
-        type: integer
-    type: object
-  db.Meta:
-    properties:
-      creator:
-        $ref: '#/definitions/db.User'
-      creator_id:
-        type: integer
-      updater:
-        $ref: '#/definitions/db.User'
-      updater_id:
-        type: integer
-    type: object
-  db.Place:
-    properties:
-      avatar:
-        type: string
-      created_at:
-        type: string
-      description:
-        type: string
-      id:
-        type: integer
-      location:
-        type: string
-      meta:
-        $ref: '#/definitions/db.Meta'
-      name:
-        type: string
-      transactions:
-        items:
-          $ref: '#/definitions/db.Transaction'
-        type: array
-      updated_at:
-        type: string
-      workspace:
-        $ref: '#/definitions/db.Workspace'
-      workspace_id:
-        type: integer
-    type: object
-  db.Transaction:
-    properties:
-      account:
-        $ref: '#/definitions/db.Account'
-      account_id:
-        type: integer
-      amount:
+      rx_tx_factor:
         type: number
-      category:
-        $ref: '#/definitions/db.Category'
-      category_id:
+      swap:
         type: integer
-      created_at:
-        type: string
-      date:
-        type: string
-      description:
-        type: string
-      id:
+      vcpus:
         type: integer
-      meta:
-        $ref: '#/definitions/db.Meta'
-      place:
-        $ref: '#/definitions/db.Place'
-      place_id:
-        type: integer
-      type:
-        type: string
-      updated_at:
-        type: string
-      workspace:
-        $ref: '#/definitions/db.Workspace'
-      workspace_id:
-        type: integer
+    required:
+    - name
+    - ram
+    - vcpus
     type: object
-  db.User:
+  ostack.KeypairCreateInput:
     properties:
-      accounts:
-        items:
-          $ref: '#/definitions/db.Account'
-        type: array
-      avatar:
-        type: string
-      created_at:
-        type: string
-      email:
-        type: string
-      enable:
-        type: boolean
-      firstname:
-        type: string
-      id:
-        type: integer
-      last_login_date:
-        type: string
-      lastname:
-        type: string
-      updated_at:
-        type: string
-      workspaces:
-        items:
-          $ref: '#/definitions/db.WorkspaceMember'
-        type: array
-    type: object
-  db.Workspace:
-    properties:
-      account_types:
-        items:
-          $ref: '#/definitions/db.AccountType'
-        type: array
-      accounts:
-        items:
-          $ref: '#/definitions/db.Account'
-        type: array
-      avatar:
-        type: string
-      categories:
-        items:
-          $ref: '#/definitions/db.Category'
-        type: array
-      created_at:
-        type: string
-      currencies:
-        items:
-          $ref: '#/definitions/db.Currency'
-        type: array
-      description:
-        type: string
-      id:
-        type: integer
-      invite_code:
-        type: string
-      members:
-        items:
-          $ref: '#/definitions/db.WorkspaceMember'
-        type: array
       name:
         type: string
-      owner:
-        $ref: '#/definitions/db.User'
-      owner_id:
-        type: integer
-      places:
-        items:
-          $ref: '#/definitions/db.Place'
-        type: array
-      transactions:
-        items:
-          $ref: '#/definitions/db.Transaction'
-        type: array
-      updated_at:
+      public_key:
         type: string
+    required:
+    - name
     type: object
-  db.WorkspaceMember:
+  ostack.SecGroupCreateInput:
     properties:
-      id:
-        type: integer
-      role:
+      description:
         type: string
-      user:
-        $ref: '#/definitions/db.User'
-      user_id:
-        type: integer
-      workspace:
-        $ref: '#/definitions/db.Workspace'
-      workspace_id:
-        type: integer
+      name:
+        type: string
+    required:
+    - name
     type: object
-  structs.CursorResponse:
+  ostack.SecGroupCreateRuleInput:
     properties:
-      has_next:
-        type: boolean
-      items: {}
-    type: object
-  structs.PaginationResponse:
-    properties:
-      items: {}
-      total:
+      cidr:
+        type: string
+      from_port:
         type: integer
+      group_id:
+        type: string
+      ip_protocol:
+        type: string
+      sec_group_id:
+        type: string
+      to_port:
+        type: integer
+    required:
+    - sec_group_id
+    type: object
+  ostack.SecGroupUpdateInput:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - name
     type: object
   structs.ResponseBody:
     properties:
       body: {}
       message:
         type: string
-    type: object
-  structs.Sorter:
-    additionalProperties:
-      type: string
     type: object
   structs.SuccessResponse:
     properties:
@@ -840,13 +130,13 @@ info:
     url: https://www.facebook.com/uurtsaikh.n
   description: Sol backend api.
   license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
+    name: MIT
+    url: https://opensource.org/licenses/MIT
   termsOfService: https://uuree.fibo.cloud/
   title: Sol API
   version: "1.0"
 paths:
-  /admin/auth/info:
+  /auth/info:
     get:
       responses:
         "200":
@@ -856,7 +146,7 @@ paths:
             - $ref: '#/definitions/structs.ResponseBody'
             - properties:
                 body:
-                  $ref: '#/definitions/db.Admin'
+                  $ref: '#/definitions/db.User'
               type: object
         "400":
           description: Bad Request
@@ -886,11 +176,11 @@ paths:
                   type: object
               type: object
       security:
-      - Admin: []
+      - Authorization: []
       summary: Info
       tags:
-      - '[Admin] Auth'
-  /admin/auth/init:
+      - Auth
+  /auth/init:
     get:
       responses:
         "200":
@@ -907,8 +197,8 @@ paths:
             type: string
       summary: Init
       tags:
-      - '[Admin] Auth'
-  /admin/auth/login:
+      - Auth
+  /auth/login:
     post:
       parameters:
       - description: Input
@@ -916,7 +206,7 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/admin.LoginInput'
+          $ref: '#/definitions/controllers.LoginInput'
       responses:
         "200":
           description: OK
@@ -925,7 +215,7 @@ paths:
             - $ref: '#/definitions/structs.ResponseBody'
             - properties:
                 body:
-                  $ref: '#/definitions/admin.LoginResult'
+                  $ref: '#/definitions/controllers.LoginResult'
               type: object
         "400":
           description: Bad Request
@@ -956,11 +246,62 @@ paths:
               type: object
       summary: Login
       tags:
-      - '[Admin] Auth'
-  /admin/user/delete/{id}:
+      - Auth
+  /flavor/create:
+    post:
+      parameters:
+      - description: Input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/ostack.FlavorCreateInput'
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  $ref: '#/definitions/structs.SuccessResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+      security:
+      - Authorization: []
+      summary: Create flavor with image
+      tags:
+      - Flavor
+  /flavor/delete/{id}:
     delete:
       parameters:
-      - description: User ID
+      - description: Flavor ID
         in: path
         name: id
         required: true
@@ -1003,14 +344,14 @@ paths:
                   type: object
               type: object
       security:
-      - Admin: []
-      summary: Delete user
+      - Authorization: []
+      summary: Delete flavor
       tags:
-      - '[Admin] User'
-  /admin/user/get/{id}:
+      - Flavor
+  /flavor/get/{id}:
     get:
       parameters:
-      - description: User ID
+      - description: Flavor ID
         in: path
         name: id
         required: true
@@ -1023,7 +364,7 @@ paths:
             - $ref: '#/definitions/structs.ResponseBody'
             - properties:
                 body:
-                  $ref: '#/definitions/db.User'
+                  type: object
               type: object
         "401":
           description: Unauthorized
@@ -1044,18 +385,12 @@ paths:
                   type: object
               type: object
       security:
-      - Admin: []
-      summary: Get user with ID
+      - Authorization: []
+      summary: Get flavor with ID
       tags:
-      - '[Admin] User'
-  /admin/user/list:
+      - Flavor
+  /flavor/list:
     post:
-      parameters:
-      - description: Filter
-        in: body
-        name: filter
-        schema:
-          $ref: '#/definitions/admin.UserListInput'
       responses:
         "200":
           description: OK
@@ -1064,14 +399,9 @@ paths:
             - $ref: '#/definitions/structs.ResponseBody'
             - properties:
                 body:
-                  allOf:
-                  - $ref: '#/definitions/structs.PaginationResponse'
-                  - properties:
-                      items:
-                        items:
-                          $ref: '#/definitions/db.User'
-                        type: array
+                  items:
                     type: object
+                  type: array
               type: object
         "400":
           description: Bad Request
@@ -1101,78 +431,12 @@ paths:
                   type: object
               type: object
       security:
-      - Admin: []
-      summary: User
+      - Authorization: []
+      summary: Flavor
       tags:
-      - '[Admin] User'
-  /admin/user/password/{id}:
-    put:
-      parameters:
-      - description: User ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Input
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/admin.UserPasswordInput'
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/structs.SuccessResponse'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Admin: []
-      summary: Password change
-      tags:
-      - '[Admin] User'
-  /admin/user/search:
+      - Flavor
+  /hypervisor/compute:
     get:
-      parameters:
-      - in: query
-        name: limit
-        type: integer
-      - in: query
-        name: previous_id
-        type: integer
-      - in: query
-        name: query
-        type: string
       responses:
         "200":
           description: OK
@@ -1181,14 +445,7 @@ paths:
             - $ref: '#/definitions/structs.ResponseBody'
             - properties:
                 body:
-                  allOf:
-                  - $ref: '#/definitions/structs.CursorResponse'
-                  - properties:
-                      items:
-                        items:
-                          $ref: '#/definitions/db.User'
-                        type: array
-                    type: object
+                  type: object
               type: object
         "400":
           description: Bad Request
@@ -1218,24 +475,12 @@ paths:
                   type: object
               type: object
       security:
-      - Admin: []
-      summary: User search with cursor pagination
+      - Authorization: []
+      summary: System compute
       tags:
-      - '[Admin] User'
-  /admin/user/status/{id}:
-    put:
-      parameters:
-      - description: User ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Input
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/admin.UserStatusInput'
+      - System
+  /hypervisor/limit:
+    get:
       responses:
         "200":
           description: OK
@@ -1244,7 +489,7 @@ paths:
             - $ref: '#/definitions/structs.ResponseBody'
             - properties:
                 body:
-                  $ref: '#/definitions/structs.SuccessResponse'
+                  type: object
               type: object
         "400":
           description: Bad Request
@@ -1274,66 +519,14 @@ paths:
                   type: object
               type: object
       security:
-      - Admin: []
-      summary: Status change
+      - Authorization: []
+      summary: System limit
       tags:
-      - '[Admin] User'
-  /customer/account-type/create:
-    post:
-      parameters:
-      - description: Input
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/customer.AccountTypeCreateInput'
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/structs.SuccessResponse'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      - Workspace: []
-      summary: Create account type
-      tags:
-      - '[Customer] Account type'
-  /customer/account-type/delete/{id}:
+      - System
+  /image/delete/{id}:
     delete:
       parameters:
-      - description: AccountType ID
+      - description: Image ID
         in: path
         name: id
         required: true
@@ -1376,15 +569,14 @@ paths:
                   type: object
               type: object
       security:
-      - Customer: []
-      - Workspace: []
-      summary: Delete account type
+      - Authorization: []
+      summary: Delete image
       tags:
-      - '[Customer] Account type'
-  /customer/account-type/get/{id}:
+      - Image
+  /image/get/{id}:
     get:
       parameters:
-      - description: AccountType ID
+      - description: Image ID
         in: path
         name: id
         required: true
@@ -1397,7 +589,7 @@ paths:
             - $ref: '#/definitions/structs.ResponseBody'
             - properties:
                 body:
-                  $ref: '#/definitions/db.AccountType'
+                  type: object
               type: object
         "401":
           description: Unauthorized
@@ -1418,19 +610,12 @@ paths:
                   type: object
               type: object
       security:
-      - Customer: []
-      - Workspace: []
-      summary: Get account type with ID
+      - Authorization: []
+      summary: Get image with ID
       tags:
-      - '[Customer] Account type'
-  /customer/account-type/list:
+      - Image
+  /image/list:
     post:
-      parameters:
-      - description: Filter
-        in: body
-        name: filter
-        schema:
-          $ref: '#/definitions/customer.AccountTypeListInput'
       responses:
         "200":
           description: OK
@@ -1439,14 +624,9 @@ paths:
             - $ref: '#/definitions/structs.ResponseBody'
             - properties:
                 body:
-                  allOf:
-                  - $ref: '#/definitions/structs.PaginationResponse'
-                  - properties:
-                      items:
-                        items:
-                          $ref: '#/definitions/db.AccountType'
-                        type: array
+                  items:
                     type: object
+                  type: array
               type: object
         "400":
           description: Bad Request
@@ -1476,87 +656,18 @@ paths:
                   type: object
               type: object
       security:
-      - Customer: []
-      - Workspace: []
-      summary: Account type
+      - Authorization: []
+      summary: Image
       tags:
-      - '[Customer] Account type'
-  /customer/account-type/search:
-    get:
-      parameters:
-      - in: query
-        name: limit
-        type: integer
-      - in: query
-        name: previous_id
-        type: integer
-      - in: query
-        name: query
-        type: string
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  allOf:
-                  - $ref: '#/definitions/structs.CursorResponse'
-                  - properties:
-                      items:
-                        items:
-                          $ref: '#/definitions/db.AccountType'
-                        type: array
-                    type: object
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      - Workspace: []
-      summary: AccountType search with cursor pagination
-      tags:
-      - '[Customer] Account type'
-  /customer/account-type/update/{id}:
+      - Image
+  /instance/confirm-resize/{id}:
     put:
       parameters:
-      - description: AccountType ID
+      - description: Instance ID
         in: path
         name: id
         required: true
         type: integer
-      - description: Input
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/customer.AccountTypeUpdateInput'
       responses:
         "200":
           description: OK
@@ -1595,12 +706,11 @@ paths:
                   type: object
               type: object
       security:
-      - Customer: []
-      - Workspace: []
-      summary: Update account type
+      - Authorization: []
+      summary: Confirm resize instance
       tags:
-      - '[Customer] Account type'
-  /customer/account/create:
+      - Instance
+  /instance/create:
     post:
       parameters:
       - description: Input
@@ -1608,7 +718,7 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/customer.AccountCreateInput'
+          type: object
       responses:
         "200":
           description: OK
@@ -1647,15 +757,14 @@ paths:
                   type: object
               type: object
       security:
-      - Customer: []
-      - Workspace: []
-      summary: Create account
+      - Authorization: []
+      summary: Create instance with image
       tags:
-      - '[Customer] Account'
-  /customer/account/delete/{id}:
+      - Instance
+  /instance/delete/{id}:
     delete:
       parameters:
-      - description: Account ID
+      - description: Instance ID
         in: path
         name: id
         required: true
@@ -1698,15 +807,14 @@ paths:
                   type: object
               type: object
       security:
-      - Customer: []
-      - Workspace: []
-      summary: Delete account
+      - Authorization: []
+      summary: Delete instance
       tags:
-      - '[Customer] Account'
-  /customer/account/get/{id}:
+      - Instance
+  /instance/get/{id}:
     get:
       parameters:
-      - description: Account ID
+      - description: Instance ID
         in: path
         name: id
         required: true
@@ -1719,7 +827,7 @@ paths:
             - $ref: '#/definitions/structs.ResponseBody'
             - properties:
                 body:
-                  $ref: '#/definitions/db.Account'
+                  type: object
               type: object
         "401":
           description: Unauthorized
@@ -1740,19 +848,12 @@ paths:
                   type: object
               type: object
       security:
-      - Customer: []
-      - Workspace: []
-      summary: Get account with ID
+      - Authorization: []
+      summary: Get instance with ID
       tags:
-      - '[Customer] Account'
-  /customer/account/list:
+      - Instance
+  /instance/list:
     post:
-      parameters:
-      - description: Filter
-        in: body
-        name: filter
-        schema:
-          $ref: '#/definitions/customer.AccountListInput'
       responses:
         "200":
           description: OK
@@ -1761,14 +862,9 @@ paths:
             - $ref: '#/definitions/structs.ResponseBody'
             - properties:
                 body:
-                  allOf:
-                  - $ref: '#/definitions/structs.PaginationResponse'
-                  - properties:
-                      items:
-                        items:
-                          $ref: '#/definitions/db.Account'
-                        type: array
+                  items:
                     type: object
+                  type: array
               type: object
         "400":
           description: Bad Request
@@ -1798,23 +894,23 @@ paths:
                   type: object
               type: object
       security:
-      - Customer: []
-      - Workspace: []
-      summary: Account
+      - Authorization: []
+      summary: Instance
       tags:
-      - '[Customer] Account'
-  /customer/account/search:
-    get:
+      - Instance
+  /instance/reboot/{id}:
+    put:
       parameters:
-      - in: query
-        name: limit
+      - description: Instance ID
+        in: path
+        name: id
+        required: true
         type: integer
-      - in: query
-        name: previous_id
-        type: integer
-      - in: query
-        name: query
-        type: string
+      - description: Hard restart
+        in: query
+        name: hard
+        required: true
+        type: boolean
       responses:
         "200":
           description: OK
@@ -1823,14 +919,7 @@ paths:
             - $ref: '#/definitions/structs.ResponseBody'
             - properties:
                 body:
-                  allOf:
-                  - $ref: '#/definitions/structs.CursorResponse'
-                  - properties:
-                      items:
-                        items:
-                          $ref: '#/definitions/db.Account'
-                        type: array
-                    type: object
+                  $ref: '#/definitions/structs.SuccessResponse'
               type: object
         "400":
           description: Bad Request
@@ -1860,15 +949,319 @@ paths:
                   type: object
               type: object
       security:
-      - Customer: []
-      - Workspace: []
-      summary: Account search with cursor pagination
+      - Authorization: []
+      summary: Reboot instance
       tags:
-      - '[Customer] Account'
-  /customer/account/update/{id}:
+      - Instance
+  /instance/resize/{id}/{flavor_id}:
     put:
       parameters:
-      - description: Account ID
+      - description: Instance ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Flavor ID
+        in: path
+        name: flavor_id
+        required: true
+        type: boolean
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  $ref: '#/definitions/structs.SuccessResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+      security:
+      - Authorization: []
+      summary: Resize instance
+      tags:
+      - Instance
+  /instance/resume/{id}:
+    put:
+      parameters:
+      - description: Instance ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  $ref: '#/definitions/structs.SuccessResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+      security:
+      - Authorization: []
+      summary: Resume instance
+      tags:
+      - Instance
+  /instance/revert-resize/{id}:
+    put:
+      parameters:
+      - description: Instance ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  $ref: '#/definitions/structs.SuccessResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+      security:
+      - Authorization: []
+      summary: Revert resize instance
+      tags:
+      - Instance
+  /instance/start/{id}:
+    put:
+      parameters:
+      - description: Instance ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  $ref: '#/definitions/structs.SuccessResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+      security:
+      - Authorization: []
+      summary: Start instance
+      tags:
+      - Instance
+  /instance/stop/{id}:
+    put:
+      parameters:
+      - description: Instance ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  $ref: '#/definitions/structs.SuccessResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+      security:
+      - Authorization: []
+      summary: Stop instance
+      tags:
+      - Instance
+  /instance/suspend/{id}:
+    put:
+      parameters:
+      - description: Instance ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  $ref: '#/definitions/structs.SuccessResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+      security:
+      - Authorization: []
+      summary: Suspend instance
+      tags:
+      - Instance
+  /instance/update/{id}:
+    put:
+      parameters:
+      - description: Instance ID
         in: path
         name: id
         required: true
@@ -1878,7 +1271,7 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/customer.AccountUpdateInput'
+          type: object
       responses:
         "200":
           description: OK
@@ -1917,95 +1310,11 @@ paths:
                   type: object
               type: object
       security:
-      - Customer: []
-      - Workspace: []
-      summary: Update account
+      - Authorization: []
+      summary: Update instance
       tags:
-      - '[Customer] Account'
-  /customer/auth/forgot/{email}:
-    get:
-      parameters:
-      - description: Email
-        in: path
-        name: email
-        required: true
-        type: string
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/structs.SuccessResponse'
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      summary: Forgot password
-      tags:
-      - '[Customer] Auth'
-  /customer/auth/info:
-    get:
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/db.User'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      summary: Info
-      tags:
-      - '[Customer] Auth'
-  /customer/auth/login:
+      - Instance
+  /keypair/create:
     post:
       parameters:
       - description: Input
@@ -2013,56 +1322,7 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/customer.LoginInput'
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/customer.LoginResult'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      summary: Login
-      tags:
-      - '[Customer] Auth'
-  /customer/auth/password:
-    put:
-      parameters:
-      - description: Input
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/customer.UpdatePasswordParamInput'
+          $ref: '#/definitions/ostack.KeypairCreateInput'
       responses:
         "200":
           description: OK
@@ -2101,373 +1361,17 @@ paths:
                   type: object
               type: object
       security:
-      - Customer: []
-      summary: Update password
+      - Authorization: []
+      summary: Create keypair with image
       tags:
-      - '[Customer] Auth'
-  /customer/auth/profile:
-    put:
-      parameters:
-      - description: Input
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/customer.UpdateProfileInput'
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/db.User'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      summary: Update profile
-      tags:
-      - '[Customer] Auth'
-  /customer/auth/reset:
-    post:
-      parameters:
-      - description: Input
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/customer.ResetInput'
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/structs.SuccessResponse'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      summary: Reset
-      tags:
-      - '[Customer] Auth'
-  /customer/auth/signup:
-    post:
-      parameters:
-      - description: Input
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/customer.SignupInput'
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/customer.SignupResult'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      summary: SignUp
-      tags:
-      - '[Customer] Auth'
-  /customer/category/create:
-    post:
-      parameters:
-      - description: Input
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/customer.CategoryCreateInput'
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/structs.SuccessResponse'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      - Workspace: []
-      summary: Create category
-      tags:
-      - '[Customer] Category'
-  /customer/category/delete/{id}:
+      - Keypair
+  /keypair/delete/{id}:
     delete:
       parameters:
-      - description: Category ID
+      - description: Keypair name
         in: path
-        name: id
+        name: name
         required: true
-        type: integer
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/structs.SuccessResponse'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      - Workspace: []
-      summary: Delete category
-      tags:
-      - '[Customer] Category'
-  /customer/category/get/{id}:
-    get:
-      parameters:
-      - description: Category ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/db.Category'
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      - Workspace: []
-      summary: Get category with ID
-      tags:
-      - '[Customer] Category'
-  /customer/category/list:
-    post:
-      parameters:
-      - description: Filter
-        in: body
-        name: filter
-        schema:
-          $ref: '#/definitions/customer.CategoryListInput'
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  allOf:
-                  - $ref: '#/definitions/structs.PaginationResponse'
-                  - properties:
-                      items:
-                        items:
-                          $ref: '#/definitions/db.Category'
-                        type: array
-                    type: object
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      - Workspace: []
-      summary: Category
-      tags:
-      - '[Customer] Category'
-  /customer/category/search:
-    get:
-      parameters:
-      - in: query
-        name: limit
-        type: integer
-      - in: query
-        name: previous_id
-        type: integer
-      - in: query
-        name: query
         type: string
       responses:
         "200":
@@ -2477,14 +1381,7 @@ paths:
             - $ref: '#/definitions/structs.ResponseBody'
             - properties:
                 body:
-                  allOf:
-                  - $ref: '#/definitions/structs.CursorResponse'
-                  - properties:
-                      items:
-                        items:
-                          $ref: '#/definitions/db.Category'
-                        type: array
-                    type: object
+                  $ref: '#/definitions/structs.SuccessResponse'
               type: object
         "400":
           description: Bad Request
@@ -2514,25 +1411,197 @@ paths:
                   type: object
               type: object
       security:
-      - Customer: []
-      - Workspace: []
-      summary: Category search with cursor pagination
+      - Authorization: []
+      summary: Delete keypair
       tags:
-      - '[Customer] Category'
-  /customer/category/update/{id}:
-    put:
+      - Keypair
+  /keypair/get/{name}:
+    get:
       parameters:
-      - description: Category ID
+      - description: Keypair name
+        in: path
+        name: name
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+      security:
+      - Authorization: []
+      summary: Get keypair with name
+      tags:
+      - Keypair
+  /keypair/list:
+    post:
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  items:
+                    type: object
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+      security:
+      - Authorization: []
+      summary: Keypair
+      tags:
+      - Keypair
+  /network/get/{id}:
+    get:
+      parameters:
+      - description: Network ID
         in: path
         name: id
         required: true
         type: integer
-      - description: Input
-        in: body
-        name: input
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+      security:
+      - Authorization: []
+      summary: Get network with ID
+      tags:
+      - Network
+  /network/list:
+    post:
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  items:
+                    type: object
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+      security:
+      - Authorization: []
+      summary: Network
+      tags:
+      - Network
+  /sec_group/add_server/{instance_id}/{id}:
+    post:
+      parameters:
+      - description: Security group ID
+        in: path
+        name: id
         required: true
-        schema:
-          $ref: '#/definitions/customer.CategoryUpdateInput'
+        type: string
+      - description: Instance ID
+        in: path
+        name: instance_id
+        required: true
+        type: string
       responses:
         "200":
           description: OK
@@ -2571,12 +1640,11 @@ paths:
                   type: object
               type: object
       security:
-      - Customer: []
-      - Workspace: []
-      summary: Update category
+      - Authorization: []
+      summary: Add server security group
       tags:
-      - '[Customer] Category'
-  /customer/currency/create:
+      - SecGroup
+  /sec_group/create:
     post:
       parameters:
       - description: Input
@@ -2584,7 +1652,7 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/customer.CurrencyCreateInput'
+          $ref: '#/definitions/ostack.SecGroupCreateInput'
       responses:
         "200":
           description: OK
@@ -2623,15 +1691,65 @@ paths:
                   type: object
               type: object
       security:
-      - Customer: []
-      - Workspace: []
-      summary: Create currency
+      - Authorization: []
+      summary: Create security group
       tags:
-      - '[Customer] Currency'
-  /customer/currency/delete/{id}:
+      - SecGroup
+  /sec_group/create_rule:
+    post:
+      parameters:
+      - description: Input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/ostack.SecGroupCreateRuleInput'
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  $ref: '#/definitions/structs.SuccessResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/structs.ResponseBody'
+            - properties:
+                body:
+                  type: object
+              type: object
+      security:
+      - Authorization: []
+      summary: Add server security group
+      tags:
+      - SecGroup
+  /sec_group/delete/{id}:
     delete:
       parameters:
-      - description: Currency ID
+      - description: Security group ID
         in: path
         name: id
         required: true
@@ -2674,547 +1792,17 @@ paths:
                   type: object
               type: object
       security:
-      - Customer: []
-      - Workspace: []
-      summary: Delete currency
+      - Authorization: []
+      summary: Delete security group
       tags:
-      - '[Customer] Currency'
-  /customer/currency/get/{id}:
-    get:
-      parameters:
-      - description: Currency ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/db.Currency'
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      - Workspace: []
-      summary: Get currency with ID
-      tags:
-      - '[Customer] Currency'
-  /customer/currency/list:
-    post:
-      parameters:
-      - description: Filter
-        in: body
-        name: filter
-        schema:
-          $ref: '#/definitions/customer.CurrencyListInput'
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  allOf:
-                  - $ref: '#/definitions/structs.PaginationResponse'
-                  - properties:
-                      items:
-                        items:
-                          $ref: '#/definitions/db.Currency'
-                        type: array
-                    type: object
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      - Workspace: []
-      summary: Currency
-      tags:
-      - '[Customer] Currency'
-  /customer/currency/search:
-    get:
-      parameters:
-      - in: query
-        name: limit
-        type: integer
-      - in: query
-        name: previous_id
-        type: integer
-      - in: query
-        name: query
-        type: string
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  allOf:
-                  - $ref: '#/definitions/structs.CursorResponse'
-                  - properties:
-                      items:
-                        items:
-                          $ref: '#/definitions/db.Currency'
-                        type: array
-                    type: object
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      - Workspace: []
-      summary: Currency search with cursor pagination
-      tags:
-      - '[Customer] Currency'
-  /customer/currency/update/{id}:
-    put:
-      parameters:
-      - description: Currency ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Input
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/customer.CurrencyUpdateInput'
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/structs.SuccessResponse'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      - Workspace: []
-      summary: Update currency
-      tags:
-      - '[Customer] Currency'
-  /customer/file/presigned:
-    put:
-      parameters:
-      - description: Input
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/customer.FilePresignedInput'
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/customer.FilePresignedResponse'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      summary: Presigned file upload
-      tags:
-      - '[Customer] File'
-  /customer/file/workspace/presigned:
-    put:
-      parameters:
-      - description: Input
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/customer.FileWorkspacePresignedInput'
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/customer.FileWorkspacePresignedResponse'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      - Workspace: []
-      summary: Workspace presigned file upload
-      tags:
-      - '[Customer] File'
-  /customer/place/create:
-    post:
-      parameters:
-      - description: Input
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/customer.PlaceCreateInput'
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/structs.SuccessResponse'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      - Workspace: []
-      summary: Create place
-      tags:
-      - '[Customer] Place'
-  /customer/place/delete/{id}:
+      - SecGroup
+  /sec_group/delete_rule/:id:
     delete:
       parameters:
-      - description: Place ID
+      - description: Rule ID
         in: path
         name: id
         required: true
-        type: integer
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/structs.SuccessResponse'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      - Workspace: []
-      summary: Delete place
-      tags:
-      - '[Customer] Place'
-  /customer/place/get/{id}:
-    get:
-      parameters:
-      - description: Place ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/db.Place'
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      - Workspace: []
-      summary: Get place with ID
-      tags:
-      - '[Customer] Place'
-  /customer/place/list:
-    post:
-      parameters:
-      - description: Filter
-        in: body
-        name: filter
-        schema:
-          $ref: '#/definitions/customer.PlaceListInput'
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  allOf:
-                  - $ref: '#/definitions/structs.PaginationResponse'
-                  - properties:
-                      items:
-                        items:
-                          $ref: '#/definitions/db.Place'
-                        type: array
-                    type: object
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      - Workspace: []
-      summary: Place
-      tags:
-      - '[Customer] Place'
-  /customer/place/search:
-    get:
-      parameters:
-      - in: query
-        name: limit
-        type: integer
-      - in: query
-        name: previous_id
-        type: integer
-      - in: query
-        name: query
         type: string
       responses:
         "200":
@@ -3224,14 +1812,7 @@ paths:
             - $ref: '#/definitions/structs.ResponseBody'
             - properties:
                 body:
-                  allOf:
-                  - $ref: '#/definitions/structs.CursorResponse'
-                  - properties:
-                      items:
-                        items:
-                          $ref: '#/definitions/db.Place'
-                        type: array
-                    type: object
+                  $ref: '#/definitions/structs.SuccessResponse'
               type: object
         "400":
           description: Bad Request
@@ -3261,37 +1842,21 @@ paths:
                   type: object
               type: object
       security:
-      - Customer: []
-      - Workspace: []
-      summary: Place search with cursor pagination
+      - Authorization: []
+      summary: Delete rule from security group
       tags:
-      - '[Customer] Place'
-  /customer/place/update/{id}:
-    put:
+      - SecGroup
+  /sec_group/get/{id}:
+    get:
       parameters:
-      - description: Place ID
+      - description: Security group ID
         in: path
         name: id
         required: true
         type: integer
-      - description: Input
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/customer.PlaceUpdateInput'
       responses:
         "200":
           description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/structs.SuccessResponse'
-              type: object
-        "400":
-          description: Bad Request
           schema:
             allOf:
             - $ref: '#/definitions/structs.ResponseBody'
@@ -3318,22 +1883,12 @@ paths:
                   type: object
               type: object
       security:
-      - Customer: []
-      - Workspace: []
-      summary: Update place
+      - Authorization: []
+      summary: Get security group with ID
       tags:
-      - '[Customer] Place'
-  /customer/transaction/create:
+      - SecGroup
+  /sec_group/list:
     post:
-      parameters:
-      - description: Input
-        in: body
-        name: input
-        required: true
-        schema:
-          items:
-            $ref: '#/definitions/customer.TransactionCreateInput'
-          type: array
       responses:
         "200":
           description: OK
@@ -3342,7 +1897,9 @@ paths:
             - $ref: '#/definitions/structs.ResponseBody'
             - properties:
                 body:
-                  $ref: '#/definitions/structs.SuccessResponse'
+                  items:
+                    type: object
+                  type: array
               type: object
         "400":
           description: Bad Request
@@ -3372,173 +1929,22 @@ paths:
                   type: object
               type: object
       security:
-      - Customer: []
-      - Workspace: []
-      summary: Create transaction
+      - Authorization: []
+      summary: Security group
       tags:
-      - '[Customer] Transaction'
-  /customer/transaction/delete/{id}:
+      - SecGroup
+  /sec_group/remove_server/{instance_id}/{id}:
     delete:
       parameters:
-      - description: Transaction ID
+      - description: Security group ID
         in: path
         name: id
         required: true
-        type: integer
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/structs.SuccessResponse'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      - Workspace: []
-      summary: Delete transaction
-      tags:
-      - '[Customer] Transaction'
-  /customer/transaction/get/{id}:
-    get:
-      parameters:
-      - description: Transaction ID
+        type: string
+      - description: Instance ID
         in: path
-        name: id
+        name: instance_id
         required: true
-        type: integer
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/db.Transaction'
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      - Workspace: []
-      summary: Get transaction with ID
-      tags:
-      - '[Customer] Transaction'
-  /customer/transaction/list:
-    post:
-      parameters:
-      - description: Filter
-        in: body
-        name: filter
-        schema:
-          $ref: '#/definitions/customer.TransactionListInput'
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  allOf:
-                  - $ref: '#/definitions/structs.PaginationResponse'
-                  - properties:
-                      items:
-                        items:
-                          $ref: '#/definitions/customer.TransactionListRecord'
-                        type: array
-                    type: object
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      - Workspace: []
-      summary: Transaction
-      tags:
-      - '[Customer] Transaction'
-  /customer/transaction/search:
-    get:
-      parameters:
-      - in: query
-        name: limit
-        type: integer
-      - in: query
-        name: previous_id
-        type: integer
-      - in: query
-        name: query
         type: string
       responses:
         "200":
@@ -3548,14 +1954,7 @@ paths:
             - $ref: '#/definitions/structs.ResponseBody'
             - properties:
                 body:
-                  allOf:
-                  - $ref: '#/definitions/structs.CursorResponse'
-                  - properties:
-                      items:
-                        items:
-                          $ref: '#/definitions/db.Transaction'
-                        type: array
-                    type: object
+                  $ref: '#/definitions/structs.SuccessResponse'
               type: object
         "400":
           description: Bad Request
@@ -3585,15 +1984,14 @@ paths:
                   type: object
               type: object
       security:
-      - Customer: []
-      - Workspace: []
-      summary: Transaction search with cursor pagination
+      - Authorization: []
+      summary: Remove server security group
       tags:
-      - '[Customer] Transaction'
-  /customer/transaction/update/{id}:
+      - SecGroup
+  /sec_group/update/{id}:
     put:
       parameters:
-      - description: Transaction ID
+      - description: Security group ID
         in: path
         name: id
         required: true
@@ -3603,7 +2001,7 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/customer.TransactionUpdateInput'
+          $ref: '#/definitions/ostack.SecGroupUpdateInput'
       responses:
         "200":
           description: OK
@@ -3642,499 +2040,18 @@ paths:
                   type: object
               type: object
       security:
-      - Customer: []
-      - Workspace: []
-      summary: Update transaction
+      - Authorization: []
+      summary: Update security group
       tags:
-      - '[Customer] Transaction'
-  /customer/workspace/create:
-    post:
-      parameters:
-      - description: Input
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/customer.WorkspaceCreateInput'
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/structs.SuccessResponse'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      summary: Create workspace
-      tags:
-      - '[Customer] Workspace'
-  /customer/workspace/delete/{id}:
-    delete:
-      parameters:
-      - description: Workspace ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/structs.SuccessResponse'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      summary: Delete workspace
-      tags:
-      - '[Customer] Workspace'
-  /customer/workspace/get/{id}:
-    get:
-      parameters:
-      - description: Workspace ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/db.Workspace'
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      summary: Get workspace with ID
-      tags:
-      - '[Customer] Workspace'
-  /customer/workspace/invite/{id}:
-    get:
-      parameters:
-      - description: Workspace ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: string
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      summary: Regenerate invite code
-      tags:
-      - '[Customer] Workspace'
-  /customer/workspace/join/{code}:
-    get:
-      parameters:
-      - description: Invite code
-        in: path
-        name: code
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/structs.SuccessResponse'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      summary: Join with invite code
-      tags:
-      - '[Customer] Workspace'
-  /customer/workspace/list:
-    post:
-      parameters:
-      - description: Filter
-        in: body
-        name: filter
-        schema:
-          $ref: '#/definitions/customer.WorkspaceListInput'
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  allOf:
-                  - $ref: '#/definitions/structs.PaginationResponse'
-                  - properties:
-                      items:
-                        items:
-                          $ref: '#/definitions/db.Workspace'
-                        type: array
-                    type: object
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      summary: Workspace
-      tags:
-      - '[Customer] Workspace'
-  /customer/workspace/role/{id}:
-    put:
-      parameters:
-      - description: Member ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Input
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/customer.WorkspaceRoleInput'
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/structs.SuccessResponse'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      summary: Change workspace member role
-      tags:
-      - '[Customer] Workspace'
-  /customer/workspace/search:
-    get:
-      parameters:
-      - in: query
-        name: limit
-        type: integer
-      - in: query
-        name: previous_id
-        type: integer
-      - in: query
-        name: query
-        type: string
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  allOf:
-                  - $ref: '#/definitions/structs.CursorResponse'
-                  - properties:
-                      items:
-                        items:
-                          $ref: '#/definitions/db.Workspace'
-                        type: array
-                    type: object
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      summary: Workspace search with cursor pagination
-      tags:
-      - '[Customer] Workspace'
-  /customer/workspace/update/{id}:
-    put:
-      parameters:
-      - description: Workspace ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Input
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/customer.WorkspaceUpdateInput'
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  $ref: '#/definitions/structs.SuccessResponse'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "401":
-          description: Unauthorized
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/structs.ResponseBody'
-            - properties:
-                body:
-                  type: object
-              type: object
-      security:
-      - Customer: []
-      summary: Update workspace
-      tags:
-      - '[Customer] Workspace'
+      - SecGroup
 produces:
 - application/json
 schemes:
 - http
 - https
 securityDefinitions:
-  Admin:
+  Authorization:
     in: header
     name: Authorization
-    type: apiKey
-  Customer:
-    in: header
-    name: Authorization
-    type: apiKey
-  Workspace:
-    in: header
-    name: Workspace
     type: apiKey
 swagger: "2.0"

@@ -31,9 +31,9 @@ func (co SecGroupController) Register(router *gin.RouterGroup) {
 // @Tags      SecGroup
 // @Security  Authorization
 // @Success   200  {object}  structs.ResponseBody{body=[]interface{}}
-// @Failure   400  {object}  structs.ResponseBody{body=object}
-// @Failure   401  {object}  structs.ResponseBody{body=object}
-// @Failure   500  {object}  structs.ResponseBody{body=object}
+// @Failure   400          {object}  structs.ResponseBody{body=object}
+// @Failure   401          {object}  structs.ResponseBody{body=object}
+// @Failure   500          {object}  structs.ResponseBody{body=object}
 // @Router    /sec_group/list [post]
 func (co SecGroupController) List(c *gin.Context) {
 	defer func() {
@@ -78,10 +78,10 @@ func (co SecGroupController) Get(c *gin.Context) {
 // @Tags      SecGroup
 // @Security  Authorization
 // @Param     input  body      ostack.SecGroupCreateInput  true  "Input"
-// @Success   200  {object}  structs.ResponseBody{body=structs.SuccessResponse}
+// @Success   200          {object}  structs.ResponseBody{body=structs.SuccessResponse}
 // @Failure   400  {object}  structs.ResponseBody{body=object}
-// @Failure   401  {object}  structs.ResponseBody{body=object}
-// @Failure   500  {object}  structs.ResponseBody{body=object}
+// @Failure   401          {object}  structs.ResponseBody{body=object}
+// @Failure   500          {object}  structs.ResponseBody{body=object}
 // @Router    /sec_group/create [post]
 func (co SecGroupController) Create(c *gin.Context) {
 	defer func() {
@@ -109,10 +109,10 @@ func (co SecGroupController) Create(c *gin.Context) {
 // @Security  Authorization
 // @Param     id     path      int                         true  "Security group ID"
 // @Param     input  body      ostack.SecGroupUpdateInput  true  "Input"
-// @Success   200    {object}  structs.ResponseBody{body=structs.SuccessResponse}
-// @Failure   400    {object}  structs.ResponseBody{body=object}
-// @Failure   401    {object}  structs.ResponseBody{body=object}
-// @Failure   500    {object}  structs.ResponseBody{body=object}
+// @Success   200  {object}  structs.ResponseBody{body=structs.SuccessResponse}
+// @Failure   400          {object}  structs.ResponseBody{body=object}
+// @Failure   401  {object}  structs.ResponseBody{body=object}
+// @Failure   500  {object}  structs.ResponseBody{body=object}
 // @Router    /sec_group/update/{id} [put]
 func (co SecGroupController) Update(c *gin.Context) {
 	defer func() {
@@ -141,10 +141,10 @@ func (co SecGroupController) Update(c *gin.Context) {
 // @Tags      SecGroup
 // @Security  Authorization
 // @Param     id   path      int  true  "Security group ID"
-// @Success   200    {object}  structs.ResponseBody{body=structs.SuccessResponse}
-// @Failure   400    {object}  structs.ResponseBody{body=object}
-// @Failure   401    {object}  structs.ResponseBody{body=object}
-// @Failure   500    {object}  structs.ResponseBody{body=object}
+// @Success   200          {object}  structs.ResponseBody{body=structs.SuccessResponse}
+// @Failure   400  {object}  structs.ResponseBody{body=object}
+// @Failure   401  {object}  structs.ResponseBody{body=object}
+// @Failure   500  {object}  structs.ResponseBody{body=object}
 // @Router    /sec_group/delete/{id} [delete]
 func (co SecGroupController) Delete(c *gin.Context) {
 	defer func() {
@@ -165,12 +165,12 @@ func (co SecGroupController) Delete(c *gin.Context) {
 // @Summary   Add server security group
 // @Tags      SecGroup
 // @Security  Authorization
-// @Param     id     path      string                         true  "Security group ID"
-// @Param     instance_id     path      string                         true  "Instance ID"
-// @Success   200    {object}  structs.ResponseBody{body=structs.SuccessResponse}
-// @Failure   400    {object}  structs.ResponseBody{body=object}
-// @Failure   401    {object}  structs.ResponseBody{body=object}
-// @Failure   500    {object}  structs.ResponseBody{body=object}
+// @Param     id           path      string  true  "Security group ID"
+// @Param     instance_id  path      string  true  "Instance ID"
+// @Success   200  {object}  structs.ResponseBody{body=structs.SuccessResponse}
+// @Failure   400  {object}  structs.ResponseBody{body=object}
+// @Failure   401  {object}  structs.ResponseBody{body=object}
+// @Failure   500  {object}  structs.ResponseBody{body=object}
 // @Router    /sec_group/add_server/{instance_id}/{id} [post]
 func (co SecGroupController) AddServer(c *gin.Context) {
 	defer func() {
@@ -192,8 +192,8 @@ func (co SecGroupController) AddServer(c *gin.Context) {
 // @Summary   Remove server security group
 // @Tags      SecGroup
 // @Security  Authorization
-// @Param     id     path      string                         true  "Security group ID"
-// @Param     instance_id     path      string                         true  "Instance ID"
+// @Param     id           path      string  true  "Security group ID"
+// @Param     instance_id  path      string  true  "Instance ID"
 // @Success   200    {object}  structs.ResponseBody{body=structs.SuccessResponse}
 // @Failure   400    {object}  structs.ResponseBody{body=object}
 // @Failure   401    {object}  structs.ResponseBody{body=object}
@@ -250,7 +250,7 @@ func (co SecGroupController) CreateRule(c *gin.Context) {
 // @Summary   Delete rule from security group
 // @Tags      SecGroup
 // @Security  Authorization
-// @Param     id     path      string                         true  "Rule ID"
+// @Param     id   path      string  true  "Rule ID"
 // @Success   200    {object}  structs.ResponseBody{body=structs.SuccessResponse}
 // @Failure   400    {object}  structs.ResponseBody{body=object}
 // @Failure   401    {object}  structs.ResponseBody{body=object}

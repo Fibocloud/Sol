@@ -26,9 +26,9 @@ func (co KeypairController) Register(router *gin.RouterGroup) {
 // @Tags      Keypair
 // @Security  Authorization
 // @Success   200  {object}  structs.ResponseBody{body=[]interface{}}
-// @Failure   400  {object}  structs.ResponseBody{body=object}
-// @Failure   401  {object}  structs.ResponseBody{body=object}
-// @Failure   500  {object}  structs.ResponseBody{body=object}
+// @Failure   400   {object}  structs.ResponseBody{body=object}
+// @Failure   401   {object}  structs.ResponseBody{body=object}
+// @Failure   500   {object}  structs.ResponseBody{body=object}
 // @Router    /keypair/list [post]
 func (co KeypairController) List(c *gin.Context) {
 	defer func() {
@@ -48,10 +48,10 @@ func (co KeypairController) List(c *gin.Context) {
 // @Summary   Get keypair with name
 // @Tags      Keypair
 // @Security  Authorization
-// @Param     name   path      string  true  "Keypair name"
-// @Success   200  {object}  structs.ResponseBody{body=interface{}}
-// @Failure   401  {object}  structs.ResponseBody{body=object}
-// @Failure   500  {object}  structs.ResponseBody{body=object}
+// @Param     name  path      string  true  "Keypair name"
+// @Success   200   {object}  structs.ResponseBody{body=interface{}}
+// @Failure   401   {object}  structs.ResponseBody{body=object}
+// @Failure   500   {object}  structs.ResponseBody{body=object}
 // @Router    /keypair/get/{name} [get]
 func (co KeypairController) Get(c *gin.Context) {
 	defer func() {
@@ -73,7 +73,7 @@ func (co KeypairController) Get(c *gin.Context) {
 // @Tags      Keypair
 // @Security  Authorization
 // @Param     input  body      ostack.KeypairCreateInput  true  "Input"
-// @Success   200  {object}  structs.ResponseBody{body=structs.SuccessResponse}
+// @Success   200   {object}  structs.ResponseBody{body=structs.SuccessResponse}
 // @Failure   400  {object}  structs.ResponseBody{body=object}
 // @Failure   401  {object}  structs.ResponseBody{body=object}
 // @Failure   500  {object}  structs.ResponseBody{body=object}
@@ -102,7 +102,7 @@ func (co KeypairController) Create(c *gin.Context) {
 // @Summary   Delete keypair
 // @Tags      Keypair
 // @Security  Authorization
-// @Param     name   path      string  true  "Keypair name"
+// @Param     name  path      string  true  "Keypair name"
 // @Success   200    {object}  structs.ResponseBody{body=structs.SuccessResponse}
 // @Failure   400    {object}  structs.ResponseBody{body=object}
 // @Failure   401    {object}  structs.ResponseBody{body=object}

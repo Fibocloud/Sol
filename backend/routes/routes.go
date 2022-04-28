@@ -23,4 +23,5 @@ func Router(app *gin.RouterGroup) {
 	controllers.FlavorController{Controller: bc}.Register(app.Group("flavor"))
 	controllers.NetworkController{Controller: bc}.Register(app.Group("network"))
 	controllers.SecGroupController{Controller: bc}.Register(app.Group("sec_group"))
+	controllers.SystemController{Controller: bc}.Register(app.Group("system"))
 }

@@ -30,23 +30,23 @@ var doc = `{
             "email": "vvrtsaix.n@gmail.com"
         },
         "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
         },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/admin/auth/info": {
+        "/auth/info": {
             "get": {
                 "security": [
                     {
-                        "Admin": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Admin] Auth"
+                    "Auth"
                 ],
                 "summary": "Info",
                 "responses": {
@@ -61,7 +61,7 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "body": {
-                                            "$ref": "#/definitions/db.Admin"
+                                            "$ref": "#/definitions/db.User"
                                         }
                                     }
                                 }
@@ -125,10 +125,10 @@ var doc = `{
                 }
             }
         },
-        "/admin/auth/init": {
+        "/auth/init": {
             "get": {
                 "tags": [
-                    "[Admin] Auth"
+                    "Auth"
                 ],
                 "summary": "Init",
                 "responses": {
@@ -153,10 +153,10 @@ var doc = `{
                 }
             }
         },
-        "/admin/auth/login": {
+        "/auth/login": {
             "post": {
                 "tags": [
-                    "[Admin] Auth"
+                    "Auth"
                 ],
                 "summary": "Login",
                 "parameters": [
@@ -166,7 +166,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/admin.LoginInput"
+                            "$ref": "#/definitions/controllers.LoginInput"
                         }
                     }
                 ],
@@ -182,7 +182,7 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "body": {
-                                            "$ref": "#/definitions/admin.LoginResult"
+                                            "$ref": "#/definitions/controllers.LoginResult"
                                         }
                                     }
                                 }
@@ -246,21 +246,119 @@ var doc = `{
                 }
             }
         },
-        "/admin/user/delete/{id}": {
+        "/flavor/create": {
+            "post": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "tags": [
+                    "Flavor"
+                ],
+                "summary": "Create flavor with image",
+                "parameters": [
+                    {
+                        "description": "Input",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ostack.FlavorCreateInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "$ref": "#/definitions/structs.SuccessResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/flavor/delete/{id}": {
             "delete": {
                 "security": [
                     {
-                        "Admin": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Admin] User"
+                    "Flavor"
                 ],
-                "summary": "Delete user",
+                "summary": "Delete flavor",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "User ID",
+                        "description": "Flavor ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -342,21 +440,21 @@ var doc = `{
                 }
             }
         },
-        "/admin/user/get/{id}": {
+        "/flavor/get/{id}": {
             "get": {
                 "security": [
                     {
-                        "Admin": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Admin] User"
+                    "Flavor"
                 ],
-                "summary": "Get user with ID",
+                "summary": "Get flavor with ID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "User ID",
+                        "description": "Flavor ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -374,7 +472,7 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "body": {
-                                            "$ref": "#/definitions/db.User"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -420,27 +518,17 @@ var doc = `{
                 }
             }
         },
-        "/admin/user/list": {
+        "/flavor/list": {
             "post": {
                 "security": [
                     {
-                        "Admin": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Admin] User"
+                    "Flavor"
                 ],
-                "summary": "User",
-                "parameters": [
-                    {
-                        "description": "Filter",
-                        "name": "filter",
-                        "in": "body",
-                        "schema": {
-                            "$ref": "#/definitions/admin.UserListInput"
-                        }
-                    }
-                ],
+                "summary": "Flavor",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -453,22 +541,10 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "body": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/definitions/structs.PaginationResponse"
-                                                },
-                                                {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "items": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "$ref": "#/definitions/db.User"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            ]
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
                                         }
                                     }
                                 }
@@ -532,139 +608,17 @@ var doc = `{
                 }
             }
         },
-        "/admin/user/password/{id}": {
-            "put": {
-                "security": [
-                    {
-                        "Admin": []
-                    }
-                ],
-                "tags": [
-                    "[Admin] User"
-                ],
-                "summary": "Password change",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "User ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Input",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/admin.UserPasswordInput"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/structs.SuccessResponse"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/admin/user/search": {
+        "/hypervisor/compute": {
             "get": {
                 "security": [
                     {
-                        "Admin": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Admin] User"
+                    "System"
                 ],
-                "summary": "User search with cursor pagination",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "previous_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "query",
-                        "in": "query"
-                    }
-                ],
+                "summary": "System compute",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -677,22 +631,7 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "body": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/definitions/structs.CursorResponse"
-                                                },
-                                                {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "items": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "$ref": "#/definitions/db.User"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            ]
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -756,35 +695,17 @@ var doc = `{
                 }
             }
         },
-        "/admin/user/status/{id}": {
-            "put": {
+        "/hypervisor/limit": {
+            "get": {
                 "security": [
                     {
-                        "Admin": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Admin] User"
+                    "System"
                 ],
-                "summary": "Status change",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "User ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Input",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/admin.UserStatusInput"
-                        }
-                    }
-                ],
+                "summary": "System limit",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -797,7 +718,7 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "body": {
-                                            "$ref": "#/definitions/structs.SuccessResponse"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -861,125 +782,21 @@ var doc = `{
                 }
             }
         },
-        "/customer/account-type/create": {
-            "post": {
-                "security": [
-                    {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Account type"
-                ],
-                "summary": "Create account type",
-                "parameters": [
-                    {
-                        "description": "Input",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/customer.AccountTypeCreateInput"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/structs.SuccessResponse"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/account-type/delete/{id}": {
+        "/image/delete/{id}": {
             "delete": {
                 "security": [
                     {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Customer] Account type"
+                    "Image"
                 ],
-                "summary": "Delete account type",
+                "summary": "Delete image",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "AccountType ID",
+                        "description": "Image ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -1061,24 +878,21 @@ var doc = `{
                 }
             }
         },
-        "/customer/account-type/get/{id}": {
+        "/image/get/{id}": {
             "get": {
                 "security": [
                     {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Customer] Account type"
+                    "Image"
                 ],
-                "summary": "Get account type with ID",
+                "summary": "Get image with ID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "AccountType ID",
+                        "description": "Image ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -1096,7 +910,7 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "body": {
-                                            "$ref": "#/definitions/db.AccountType"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -1142,30 +956,17 @@ var doc = `{
                 }
             }
         },
-        "/customer/account-type/list": {
+        "/image/list": {
             "post": {
                 "security": [
                     {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Customer] Account type"
+                    "Image"
                 ],
-                "summary": "Account type",
-                "parameters": [
-                    {
-                        "description": "Filter",
-                        "name": "filter",
-                        "in": "body",
-                        "schema": {
-                            "$ref": "#/definitions/customer.AccountTypeListInput"
-                        }
-                    }
-                ],
+                "summary": "Image",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1178,22 +979,10 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "body": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/definitions/structs.PaginationResponse"
-                                                },
-                                                {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "items": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "$ref": "#/definitions/db.AccountType"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            ]
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
                                         }
                                     }
                                 }
@@ -1257,158 +1046,24 @@ var doc = `{
                 }
             }
         },
-        "/customer/account-type/search": {
-            "get": {
-                "security": [
-                    {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Account type"
-                ],
-                "summary": "AccountType search with cursor pagination",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "previous_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "query",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/definitions/structs.CursorResponse"
-                                                },
-                                                {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "items": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "$ref": "#/definitions/db.AccountType"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/account-type/update/{id}": {
+        "/instance/confirm-resize/{id}": {
             "put": {
                 "security": [
                     {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Customer] Account type"
+                    "Instance"
                 ],
-                "summary": "Update account type",
+                "summary": "Confirm resize instance",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "AccountType ID",
+                        "description": "Instance ID",
                         "name": "id",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "description": "Input",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/customer.AccountTypeUpdateInput"
-                        }
                     }
                 ],
                 "responses": {
@@ -1487,20 +1142,17 @@ var doc = `{
                 }
             }
         },
-        "/customer/account/create": {
+        "/instance/create": {
             "post": {
                 "security": [
                     {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Customer] Account"
+                    "Instance"
                 ],
-                "summary": "Create account",
+                "summary": "Create instance with image",
                 "parameters": [
                     {
                         "description": "Input",
@@ -1508,7 +1160,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/customer.AccountCreateInput"
+                            "type": "object"
                         }
                     }
                 ],
@@ -1588,24 +1240,21 @@ var doc = `{
                 }
             }
         },
-        "/customer/account/delete/{id}": {
+        "/instance/delete/{id}": {
             "delete": {
                 "security": [
                     {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Customer] Account"
+                    "Instance"
                 ],
-                "summary": "Delete account",
+                "summary": "Delete instance",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Account ID",
+                        "description": "Instance ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -1687,24 +1336,21 @@ var doc = `{
                 }
             }
         },
-        "/customer/account/get/{id}": {
+        "/instance/get/{id}": {
             "get": {
                 "security": [
                     {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Customer] Account"
+                    "Instance"
                 ],
-                "summary": "Get account with ID",
+                "summary": "Get instance with ID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Account ID",
+                        "description": "Instance ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -1722,7 +1368,7 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "body": {
-                                            "$ref": "#/definitions/db.Account"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -1768,30 +1414,17 @@ var doc = `{
                 }
             }
         },
-        "/customer/account/list": {
+        "/instance/list": {
             "post": {
                 "security": [
                     {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Customer] Account"
+                    "Instance"
                 ],
-                "summary": "Account",
-                "parameters": [
-                    {
-                        "description": "Filter",
-                        "name": "filter",
-                        "in": "body",
-                        "schema": {
-                            "$ref": "#/definitions/customer.AccountListInput"
-                        }
-                    }
-                ],
+                "summary": "Instance",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1804,22 +1437,10 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "body": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/definitions/structs.PaginationResponse"
-                                                },
-                                                {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "items": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "$ref": "#/definitions/db.Account"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            ]
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
                                         }
                                     }
                                 }
@@ -1883,146 +1504,707 @@ var doc = `{
                 }
             }
         },
-        "/customer/account/search": {
-            "get": {
-                "security": [
-                    {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Account"
-                ],
-                "summary": "Account search with cursor pagination",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "previous_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "query",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/definitions/structs.CursorResponse"
-                                                },
-                                                {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "items": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "$ref": "#/definitions/db.Account"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/account/update/{id}": {
+        "/instance/reboot/{id}": {
             "put": {
                 "security": [
                     {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Customer] Account"
+                    "Instance"
                 ],
-                "summary": "Update account",
+                "summary": "Reboot instance",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Account ID",
+                        "description": "Instance ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Hard restart",
+                        "name": "hard",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "$ref": "#/definitions/structs.SuccessResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/instance/resize/{id}/{flavor_id}": {
+            "put": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "tags": [
+                    "Instance"
+                ],
+                "summary": "Resize instance",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Instance ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Flavor ID",
+                        "name": "flavor_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "$ref": "#/definitions/structs.SuccessResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/instance/resume/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "tags": [
+                    "Instance"
+                ],
+                "summary": "Resume instance",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Instance ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "$ref": "#/definitions/structs.SuccessResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/instance/revert-resize/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "tags": [
+                    "Instance"
+                ],
+                "summary": "Revert resize instance",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Instance ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "$ref": "#/definitions/structs.SuccessResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/instance/start/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "tags": [
+                    "Instance"
+                ],
+                "summary": "Start instance",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Instance ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "$ref": "#/definitions/structs.SuccessResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/instance/stop/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "tags": [
+                    "Instance"
+                ],
+                "summary": "Stop instance",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Instance ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "$ref": "#/definitions/structs.SuccessResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/instance/suspend/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "tags": [
+                    "Instance"
+                ],
+                "summary": "Suspend instance",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Instance ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "$ref": "#/definitions/structs.SuccessResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/instance/update/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "tags": [
+                    "Instance"
+                ],
+                "summary": "Update instance",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Instance ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -2033,7 +2215,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/customer.AccountUpdateInput"
+                            "type": "object"
                         }
                     }
                 ],
@@ -2113,655 +2295,17 @@ var doc = `{
                 }
             }
         },
-        "/customer/auth/forgot/{email}": {
-            "get": {
-                "tags": [
-                    "[Customer] Auth"
-                ],
-                "summary": "Forgot password",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Email",
-                        "name": "email",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/structs.SuccessResponse"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/auth/info": {
-            "get": {
-                "security": [
-                    {
-                        "Customer": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Auth"
-                ],
-                "summary": "Info",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/db.User"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/auth/login": {
-            "post": {
-                "tags": [
-                    "[Customer] Auth"
-                ],
-                "summary": "Login",
-                "parameters": [
-                    {
-                        "description": "Input",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/customer.LoginInput"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/customer.LoginResult"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/auth/password": {
-            "put": {
-                "security": [
-                    {
-                        "Customer": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Auth"
-                ],
-                "summary": "Update password",
-                "parameters": [
-                    {
-                        "description": "Input",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/customer.UpdatePasswordParamInput"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/structs.SuccessResponse"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/auth/profile": {
-            "put": {
-                "security": [
-                    {
-                        "Customer": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Auth"
-                ],
-                "summary": "Update profile",
-                "parameters": [
-                    {
-                        "description": "Input",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/customer.UpdateProfileInput"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/db.User"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/auth/reset": {
-            "post": {
-                "tags": [
-                    "[Customer] Auth"
-                ],
-                "summary": "Reset",
-                "parameters": [
-                    {
-                        "description": "Input",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/customer.ResetInput"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/structs.SuccessResponse"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/auth/signup": {
-            "post": {
-                "tags": [
-                    "[Customer] Auth"
-                ],
-                "summary": "SignUp",
-                "parameters": [
-                    {
-                        "description": "Input",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/customer.SignupInput"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/customer.SignupResult"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/category/create": {
+        "/keypair/create": {
             "post": {
                 "security": [
                     {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Customer] Category"
+                    "Keypair"
                 ],
-                "summary": "Create category",
+                "summary": "Create keypair with image",
                 "parameters": [
                     {
                         "description": "Input",
@@ -2769,7 +2313,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/customer.CategoryCreateInput"
+                            "$ref": "#/definitions/ostack.KeypairCreateInput"
                         }
                     }
                 ],
@@ -2849,25 +2393,22 @@ var doc = `{
                 }
             }
         },
-        "/customer/category/delete/{id}": {
+        "/keypair/delete/{id}": {
             "delete": {
                 "security": [
                     {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Customer] Category"
+                    "Keypair"
                 ],
-                "summary": "Delete category",
+                "summary": "Delete keypair",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Category ID",
-                        "name": "id",
+                        "type": "string",
+                        "description": "Keypair name",
+                        "name": "name",
                         "in": "path",
                         "required": true
                     }
@@ -2948,25 +2489,22 @@ var doc = `{
                 }
             }
         },
-        "/customer/category/get/{id}": {
+        "/keypair/get/{name}": {
             "get": {
                 "security": [
                     {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Customer] Category"
+                    "Keypair"
                 ],
-                "summary": "Get category with ID",
+                "summary": "Get keypair with name",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Category ID",
-                        "name": "id",
+                        "type": "string",
+                        "description": "Keypair name",
+                        "name": "name",
                         "in": "path",
                         "required": true
                     }
@@ -2983,7 +2521,7 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "body": {
-                                            "$ref": "#/definitions/db.Category"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -3029,30 +2567,17 @@ var doc = `{
                 }
             }
         },
-        "/customer/category/list": {
+        "/keypair/list": {
             "post": {
                 "security": [
                     {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Customer] Category"
+                    "Keypair"
                 ],
-                "summary": "Category",
-                "parameters": [
-                    {
-                        "description": "Filter",
-                        "name": "filter",
-                        "in": "body",
-                        "schema": {
-                            "$ref": "#/definitions/customer.CategoryListInput"
-                        }
-                    }
-                ],
+                "summary": "Keypair",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -3065,22 +2590,10 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "body": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/definitions/structs.PaginationResponse"
-                                                },
-                                                {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "items": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "$ref": "#/definitions/db.Category"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            ]
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
                                         }
                                     }
                                 }
@@ -3144,158 +2657,199 @@ var doc = `{
                 }
             }
         },
-        "/customer/category/search": {
+        "/network/get/{id}": {
             "get": {
                 "security": [
                     {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Customer] Category"
+                    "Network"
                 ],
-                "summary": "Category search with cursor pagination",
+                "summary": "Get network with ID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "name": "limit",
-                        "in": "query"
+                        "description": "Network ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
                     },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/network/list": {
+            "post": {
+                "security": [
                     {
-                        "type": "integer",
-                        "name": "previous_id",
-                        "in": "query"
+                        "Authorization": []
+                    }
+                ],
+                "tags": [
+                    "Network"
+                ],
+                "summary": "Network",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/sec_group/add_server/{instance_id}/{id}": {
+            "post": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "tags": [
+                    "SecGroup"
+                ],
+                "summary": "Add server security group",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Security group ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     },
                     {
                         "type": "string",
-                        "name": "query",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/definitions/structs.CursorResponse"
-                                                },
-                                                {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "items": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "$ref": "#/definitions/db.Category"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/category/update/{id}": {
-            "put": {
-                "security": [
-                    {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Category"
-                ],
-                "summary": "Update category",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Category ID",
-                        "name": "id",
+                        "description": "Instance ID",
+                        "name": "instance_id",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "description": "Input",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/customer.CategoryUpdateInput"
-                        }
                     }
                 ],
                 "responses": {
@@ -3374,20 +2928,17 @@ var doc = `{
                 }
             }
         },
-        "/customer/currency/create": {
+        "/sec_group/create": {
             "post": {
                 "security": [
                     {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Customer] Currency"
+                    "SecGroup"
                 ],
-                "summary": "Create currency",
+                "summary": "Create security group",
                 "parameters": [
                     {
                         "description": "Input",
@@ -3395,7 +2946,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/customer.CurrencyCreateInput"
+                            "$ref": "#/definitions/ostack.SecGroupCreateInput"
                         }
                     }
                 ],
@@ -3475,24 +3026,119 @@ var doc = `{
                 }
             }
         },
-        "/customer/currency/delete/{id}": {
+        "/sec_group/create_rule": {
+            "post": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "tags": [
+                    "SecGroup"
+                ],
+                "summary": "Add server security group",
+                "parameters": [
+                    {
+                        "description": "Input",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ostack.SecGroupCreateRuleInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "$ref": "#/definitions/structs.SuccessResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/sec_group/delete/{id}": {
             "delete": {
                 "security": [
                     {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Customer] Currency"
+                    "SecGroup"
                 ],
-                "summary": "Delete currency",
+                "summary": "Delete security group",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Currency ID",
+                        "description": "Security group ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -3574,1179 +3220,24 @@ var doc = `{
                 }
             }
         },
-        "/customer/currency/get/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Currency"
-                ],
-                "summary": "Get currency with ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Currency ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/db.Currency"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/currency/list": {
-            "post": {
-                "security": [
-                    {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Currency"
-                ],
-                "summary": "Currency",
-                "parameters": [
-                    {
-                        "description": "Filter",
-                        "name": "filter",
-                        "in": "body",
-                        "schema": {
-                            "$ref": "#/definitions/customer.CurrencyListInput"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/definitions/structs.PaginationResponse"
-                                                },
-                                                {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "items": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "$ref": "#/definitions/db.Currency"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/currency/search": {
-            "get": {
-                "security": [
-                    {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Currency"
-                ],
-                "summary": "Currency search with cursor pagination",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "previous_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "query",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/definitions/structs.CursorResponse"
-                                                },
-                                                {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "items": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "$ref": "#/definitions/db.Currency"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/currency/update/{id}": {
-            "put": {
-                "security": [
-                    {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Currency"
-                ],
-                "summary": "Update currency",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Currency ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Input",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/customer.CurrencyUpdateInput"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/structs.SuccessResponse"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/file/presigned": {
-            "put": {
-                "security": [
-                    {
-                        "Customer": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] File"
-                ],
-                "summary": "Presigned file upload",
-                "parameters": [
-                    {
-                        "description": "Input",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/customer.FilePresignedInput"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/customer.FilePresignedResponse"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/file/workspace/presigned": {
-            "put": {
-                "security": [
-                    {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] File"
-                ],
-                "summary": "Workspace presigned file upload",
-                "parameters": [
-                    {
-                        "description": "Input",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/customer.FileWorkspacePresignedInput"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/customer.FileWorkspacePresignedResponse"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/place/create": {
-            "post": {
-                "security": [
-                    {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Place"
-                ],
-                "summary": "Create place",
-                "parameters": [
-                    {
-                        "description": "Input",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/customer.PlaceCreateInput"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/structs.SuccessResponse"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/place/delete/{id}": {
+        "/sec_group/delete_rule/:id": {
             "delete": {
                 "security": [
                     {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Customer] Place"
+                    "SecGroup"
                 ],
-                "summary": "Delete place",
+                "summary": "Delete rule from security group",
                 "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Place ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/structs.SuccessResponse"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/place/get/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Place"
-                ],
-                "summary": "Get place with ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Place ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/db.Place"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/place/list": {
-            "post": {
-                "security": [
-                    {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Place"
-                ],
-                "summary": "Place",
-                "parameters": [
-                    {
-                        "description": "Filter",
-                        "name": "filter",
-                        "in": "body",
-                        "schema": {
-                            "$ref": "#/definitions/customer.PlaceListInput"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/definitions/structs.PaginationResponse"
-                                                },
-                                                {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "items": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "$ref": "#/definitions/db.Place"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/place/search": {
-            "get": {
-                "security": [
-                    {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Place"
-                ],
-                "summary": "Place search with cursor pagination",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "previous_id",
-                        "in": "query"
-                    },
                     {
                         "type": "string",
-                        "name": "query",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/definitions/structs.CursorResponse"
-                                                },
-                                                {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "items": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "$ref": "#/definitions/db.Place"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/place/update/{id}": {
-            "put": {
-                "security": [
-                    {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Place"
-                ],
-                "summary": "Update place",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Place ID",
+                        "description": "Rule ID",
                         "name": "id",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "description": "Input",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/customer.PlaceUpdateInput"
-                        }
                     }
                 ],
                 "responses": {
@@ -4825,32 +3316,24 @@ var doc = `{
                 }
             }
         },
-        "/customer/transaction/create": {
-            "post": {
+        "/sec_group/get/{id}": {
+            "get": {
                 "security": [
                     {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Customer] Transaction"
+                    "SecGroup"
                 ],
-                "summary": "Create transaction",
+                "summary": "Get security group with ID",
                 "parameters": [
                     {
-                        "description": "Input",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/customer.TransactionCreateInput"
-                            }
-                        }
+                        "type": "integer",
+                        "description": "Security group ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -4865,7 +3348,79 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "body": {
-                                            "$ref": "#/definitions/structs.SuccessResponse"
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/sec_group/list": {
+            "post": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "tags": [
+                    "SecGroup"
+                ],
+                "summary": "Security group",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/structs.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "body": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
                                         }
                                     }
                                 }
@@ -4929,330 +3484,31 @@ var doc = `{
                 }
             }
         },
-        "/customer/transaction/delete/{id}": {
+        "/sec_group/remove_server/{instance_id}/{id}": {
             "delete": {
                 "security": [
                     {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Customer] Transaction"
+                    "SecGroup"
                 ],
-                "summary": "Delete transaction",
+                "summary": "Remove server security group",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Transaction ID",
+                        "type": "string",
+                        "description": "Security group ID",
                         "name": "id",
                         "in": "path",
                         "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/structs.SuccessResponse"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/transaction/get/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Transaction"
-                ],
-                "summary": "Get transaction with ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Transaction ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/db.Transaction"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/transaction/list": {
-            "post": {
-                "security": [
-                    {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Transaction"
-                ],
-                "summary": "Transaction",
-                "parameters": [
-                    {
-                        "description": "Filter",
-                        "name": "filter",
-                        "in": "body",
-                        "schema": {
-                            "$ref": "#/definitions/customer.TransactionListInput"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/definitions/structs.PaginationResponse"
-                                                },
-                                                {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "items": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "$ref": "#/definitions/customer.TransactionListRecord"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/transaction/search": {
-            "get": {
-                "security": [
-                    {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Transaction"
-                ],
-                "summary": "Transaction search with cursor pagination",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "previous_id",
-                        "in": "query"
                     },
                     {
                         "type": "string",
-                        "name": "query",
-                        "in": "query"
+                        "description": "Instance ID",
+                        "name": "instance_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -5267,22 +3523,7 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "body": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/definitions/structs.CursorResponse"
-                                                },
-                                                {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "items": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "$ref": "#/definitions/db.Transaction"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            ]
+                                            "$ref": "#/definitions/structs.SuccessResponse"
                                         }
                                     }
                                 }
@@ -5346,24 +3587,21 @@ var doc = `{
                 }
             }
         },
-        "/customer/transaction/update/{id}": {
+        "/sec_group/update/{id}": {
             "put": {
                 "security": [
                     {
-                        "Customer": []
-                    },
-                    {
-                        "Workspace": []
+                        "Authorization": []
                     }
                 ],
                 "tags": [
-                    "[Customer] Transaction"
+                    "SecGroup"
                 ],
-                "summary": "Update transaction",
+                "summary": "Update security group",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Transaction ID",
+                        "description": "Security group ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -5374,912 +3612,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/customer.TransactionUpdateInput"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/structs.SuccessResponse"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/workspace/create": {
-            "post": {
-                "security": [
-                    {
-                        "Customer": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Workspace"
-                ],
-                "summary": "Create workspace",
-                "parameters": [
-                    {
-                        "description": "Input",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/customer.WorkspaceCreateInput"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/structs.SuccessResponse"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/workspace/delete/{id}": {
-            "delete": {
-                "security": [
-                    {
-                        "Customer": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Workspace"
-                ],
-                "summary": "Delete workspace",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Workspace ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/structs.SuccessResponse"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/workspace/get/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "Customer": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Workspace"
-                ],
-                "summary": "Get workspace with ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Workspace ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/db.Workspace"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/workspace/invite/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "Customer": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Workspace"
-                ],
-                "summary": "Regenerate invite code",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Workspace ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/workspace/join/{code}": {
-            "get": {
-                "security": [
-                    {
-                        "Customer": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Workspace"
-                ],
-                "summary": "Join with invite code",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Invite code",
-                        "name": "code",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/structs.SuccessResponse"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/workspace/list": {
-            "post": {
-                "security": [
-                    {
-                        "Customer": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Workspace"
-                ],
-                "summary": "Workspace",
-                "parameters": [
-                    {
-                        "description": "Filter",
-                        "name": "filter",
-                        "in": "body",
-                        "schema": {
-                            "$ref": "#/definitions/customer.WorkspaceListInput"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/definitions/structs.PaginationResponse"
-                                                },
-                                                {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "items": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "$ref": "#/definitions/db.Workspace"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/workspace/role/{id}": {
-            "put": {
-                "security": [
-                    {
-                        "Customer": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Workspace"
-                ],
-                "summary": "Change workspace member role",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Member ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Input",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/customer.WorkspaceRoleInput"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "$ref": "#/definitions/structs.SuccessResponse"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/workspace/search": {
-            "get": {
-                "security": [
-                    {
-                        "Customer": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Workspace"
-                ],
-                "summary": "Workspace search with cursor pagination",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "previous_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "query",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/definitions/structs.CursorResponse"
-                                                },
-                                                {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "items": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "$ref": "#/definitions/db.Workspace"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/structs.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "body": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/customer/workspace/update/{id}": {
-            "put": {
-                "security": [
-                    {
-                        "Customer": []
-                    }
-                ],
-                "tags": [
-                    "[Customer] Workspace"
-                ],
-                "summary": "Update workspace",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Workspace ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Input",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/customer.WorkspaceUpdateInput"
+                            "$ref": "#/definitions/ostack.SecGroupUpdateInput"
                         }
                     }
                 ],
@@ -6361,7 +3694,7 @@ var doc = `{
         }
     },
     "definitions": {
-        "admin.LoginInput": {
+        "controllers.LoginInput": {
             "type": "object",
             "required": [
                 "password",
@@ -6376,401 +3709,7 @@ var doc = `{
                 }
             }
         },
-        "admin.LoginResult": {
-            "type": "object",
-            "properties": {
-                "token": {
-                    "type": "string"
-                },
-                "user": {
-                    "$ref": "#/definitions/db.Admin"
-                }
-            }
-        },
-        "admin.UserListInput": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "enable": {
-                    "type": "boolean"
-                },
-                "firstname": {
-                    "type": "string"
-                },
-                "lastname": {
-                    "type": "string"
-                },
-                "limit": {
-                    "type": "integer",
-                    "example": 20
-                },
-                "page": {
-                    "type": "integer",
-                    "example": 0
-                },
-                "sorter": {
-                    "$ref": "#/definitions/structs.Sorter"
-                }
-            }
-        },
-        "admin.UserPasswordInput": {
-            "type": "object",
-            "required": [
-                "password"
-            ],
-            "properties": {
-                "password": {
-                    "type": "string"
-                }
-            }
-        },
-        "admin.UserStatusInput": {
-            "type": "object",
-            "properties": {
-                "enable": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "customer.AccountCreateInput": {
-            "type": "object",
-            "required": [
-                "currency_id",
-                "name",
-                "type_id"
-            ],
-            "properties": {
-                "avatar": {
-                    "type": "string"
-                },
-                "currency_id": {
-                    "type": "integer"
-                },
-                "initial_balance": {
-                    "type": "number"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "type_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "customer.AccountListInput": {
-            "type": "object",
-            "properties": {
-                "currency_id": {
-                    "type": "integer"
-                },
-                "enable": {
-                    "type": "boolean"
-                },
-                "limit": {
-                    "type": "integer",
-                    "example": 20
-                },
-                "name": {
-                    "type": "string"
-                },
-                "owner_id": {
-                    "type": "integer"
-                },
-                "page": {
-                    "type": "integer",
-                    "example": 0
-                },
-                "sorter": {
-                    "$ref": "#/definitions/structs.Sorter"
-                },
-                "type_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "customer.AccountTypeCreateInput": {
-            "type": "object",
-            "required": [
-                "name"
-            ],
-            "properties": {
-                "avatar": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "customer.AccountTypeListInput": {
-            "type": "object",
-            "properties": {
-                "limit": {
-                    "type": "integer",
-                    "example": 20
-                },
-                "name": {
-                    "type": "string"
-                },
-                "page": {
-                    "type": "integer",
-                    "example": 0
-                },
-                "sorter": {
-                    "$ref": "#/definitions/structs.Sorter"
-                }
-            }
-        },
-        "customer.AccountTypeUpdateInput": {
-            "type": "object",
-            "required": [
-                "name"
-            ],
-            "properties": {
-                "avatar": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "customer.AccountUpdateInput": {
-            "type": "object",
-            "required": [
-                "currency_id",
-                "name",
-                "type_id"
-            ],
-            "properties": {
-                "avatar": {
-                    "type": "string"
-                },
-                "currency_id": {
-                    "type": "integer"
-                },
-                "enable": {
-                    "type": "boolean"
-                },
-                "initial_balance": {
-                    "type": "number"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "type_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "customer.CategoryCreateInput": {
-            "type": "object",
-            "required": [
-                "name",
-                "type"
-            ],
-            "properties": {
-                "avatar": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                }
-            }
-        },
-        "customer.CategoryListInput": {
-            "type": "object",
-            "properties": {
-                "is_fee": {
-                    "type": "boolean"
-                },
-                "limit": {
-                    "type": "integer",
-                    "example": 20
-                },
-                "name": {
-                    "type": "string"
-                },
-                "page": {
-                    "type": "integer",
-                    "example": 0
-                },
-                "sorter": {
-                    "$ref": "#/definitions/structs.Sorter"
-                },
-                "type": {
-                    "type": "string"
-                }
-            }
-        },
-        "customer.CategoryUpdateInput": {
-            "type": "object",
-            "required": [
-                "name",
-                "type"
-            ],
-            "properties": {
-                "avatar": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                }
-            }
-        },
-        "customer.CurrencyCreateInput": {
-            "type": "object",
-            "required": [
-                "name",
-                "short",
-                "symbol"
-            ],
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "short": {
-                    "type": "string"
-                },
-                "symbol": {
-                    "type": "string"
-                }
-            }
-        },
-        "customer.CurrencyListInput": {
-            "type": "object",
-            "properties": {
-                "limit": {
-                    "type": "integer",
-                    "example": 20
-                },
-                "name": {
-                    "type": "string"
-                },
-                "page": {
-                    "type": "integer",
-                    "example": 0
-                },
-                "short": {
-                    "type": "string"
-                },
-                "sorter": {
-                    "$ref": "#/definitions/structs.Sorter"
-                },
-                "symbol": {
-                    "type": "string"
-                }
-            }
-        },
-        "customer.CurrencyUpdateInput": {
-            "type": "object",
-            "required": [
-                "name",
-                "short",
-                "symbol"
-            ],
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "short": {
-                    "type": "string"
-                },
-                "symbol": {
-                    "type": "string"
-                }
-            }
-        },
-        "customer.FilePresignedInput": {
-            "type": "object",
-            "required": [
-                "extension",
-                "name",
-                "type"
-            ],
-            "properties": {
-                "extension": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                }
-            }
-        },
-        "customer.FilePresignedResponse": {
-            "type": "object",
-            "properties": {
-                "host": {
-                    "type": "string"
-                },
-                "path": {
-                    "type": "string"
-                },
-                "query": {
-                    "type": "string"
-                }
-            }
-        },
-        "customer.FileWorkspacePresignedInput": {
-            "type": "object",
-            "required": [
-                "extension",
-                "name",
-                "type"
-            ],
-            "properties": {
-                "extension": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                }
-            }
-        },
-        "customer.FileWorkspacePresignedResponse": {
-            "type": "object",
-            "properties": {
-                "host": {
-                    "type": "string"
-                },
-                "path": {
-                    "type": "string"
-                },
-                "query": {
-                    "type": "string"
-                }
-            }
-        },
-        "customer.LoginInput": {
-            "type": "object",
-            "required": [
-                "email",
-                "password"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                }
-            }
-        },
-        "customer.LoginResult": {
+        "controllers.LoginResult": {
             "type": "object",
             "properties": {
                 "token": {
@@ -6781,453 +3720,37 @@ var doc = `{
                 }
             }
         },
-        "customer.PlaceCreateInput": {
-            "type": "object",
-            "required": [
-                "name"
-            ],
-            "properties": {
-                "avatar": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "location": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "customer.PlaceListInput": {
+        "db.OSCredential": {
             "type": "object",
             "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "limit": {
-                    "type": "integer",
-                    "example": 20
-                },
-                "name": {
-                    "type": "string"
-                },
-                "page": {
-                    "type": "integer",
-                    "example": 0
-                },
-                "sorter": {
-                    "$ref": "#/definitions/structs.Sorter"
-                }
-            }
-        },
-        "customer.PlaceUpdateInput": {
-            "type": "object",
-            "required": [
-                "name"
-            ],
-            "properties": {
-                "avatar": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "location": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "customer.ResetInput": {
-            "type": "object",
-            "required": [
-                "code",
-                "password"
-            ],
-            "properties": {
-                "code": {
-                    "type": "string"
-                },
                 "password": {
                     "type": "string"
-                }
-            }
-        },
-        "customer.SignupInput": {
-            "type": "object",
-            "required": [
-                "email",
-                "firstname",
-                "lastname",
-                "password"
-            ],
-            "properties": {
-                "email": {
+                },
+                "tenant_id": {
                     "type": "string"
                 },
-                "firstname": {
-                    "type": "string"
-                },
-                "lastname": {
-                    "type": "string"
-                },
-                "password": {
+                "username": {
                     "type": "string"
                 }
             }
         },
-        "customer.SignupResult": {
+        "db.User": {
             "type": "object",
             "properties": {
-                "token": {
-                    "type": "string"
-                },
-                "user": {
-                    "$ref": "#/definitions/db.User"
-                }
-            }
-        },
-        "customer.TransactionCreateInput": {
-            "type": "object",
-            "required": [
-                "account_id",
-                "amount",
-                "date",
-                "description",
-                "type"
-            ],
-            "properties": {
-                "account_id": {
-                    "type": "integer"
-                },
-                "amount": {
-                    "type": "number"
-                },
-                "category_id": {
-                    "type": "integer"
-                },
-                "date": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "fee": {
-                    "type": "number"
-                },
-                "fee_category_id": {
-                    "type": "integer"
-                },
-                "has_fee": {
-                    "type": "boolean"
-                },
-                "place_id": {
-                    "type": "integer"
-                },
-                "target_account_id": {
-                    "type": "integer"
-                },
-                "type": {
-                    "type": "string"
-                }
-            }
-        },
-        "customer.TransactionListInput": {
-            "type": "object",
-            "properties": {
-                "account_id": {
-                    "type": "integer"
-                },
-                "category_id": {
-                    "type": "integer"
-                },
-                "date": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "limit": {
-                    "type": "integer",
-                    "example": 20
-                },
-                "page": {
-                    "type": "integer",
-                    "example": 0
-                },
-                "place_id": {
-                    "type": "integer"
-                },
-                "sorter": {
-                    "$ref": "#/definitions/structs.Sorter"
-                },
-                "type": {
-                    "type": "string"
-                }
-            }
-        },
-        "customer.TransactionListRecord": {
-            "type": "object",
-            "properties": {
-                "date": {
-                    "type": "string"
-                },
-                "total": {
-                    "type": "number"
-                },
-                "transactions": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/db.Transaction"
-                    }
-                }
-            }
-        },
-        "customer.TransactionUpdateInput": {
-            "type": "object",
-            "required": [
-                "account_id",
-                "amount",
-                "category_id",
-                "date",
-                "description",
-                "type"
-            ],
-            "properties": {
-                "account_id": {
-                    "type": "integer"
-                },
-                "amount": {
-                    "type": "number"
-                },
-                "category_id": {
-                    "type": "integer"
-                },
-                "date": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "place_id": {
-                    "type": "integer"
-                },
-                "type": {
-                    "type": "string"
-                }
-            }
-        },
-        "customer.UpdatePasswordParamInput": {
-            "type": "object",
-            "required": [
-                "new_password",
-                "old_password"
-            ],
-            "properties": {
-                "new_password": {
-                    "type": "string"
-                },
-                "old_password": {
-                    "type": "string"
-                }
-            }
-        },
-        "customer.UpdateProfileInput": {
-            "type": "object",
-            "required": [
-                "avatar",
-                "firstname",
-                "lastname"
-            ],
-            "properties": {
-                "avatar": {
-                    "type": "string"
-                },
-                "firstname": {
-                    "type": "string"
-                },
-                "lastname": {
-                    "type": "string"
-                }
-            }
-        },
-        "customer.WorkspaceCreateInput": {
-            "type": "object",
-            "required": [
-                "name"
-            ],
-            "properties": {
-                "avatar": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "customer.WorkspaceListInput": {
-            "type": "object",
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "limit": {
-                    "type": "integer",
-                    "example": 20
-                },
-                "name": {
-                    "type": "string"
-                },
-                "page": {
-                    "type": "integer",
-                    "example": 0
-                },
-                "sorter": {
-                    "$ref": "#/definitions/structs.Sorter"
-                }
-            }
-        },
-        "customer.WorkspaceRoleInput": {
-            "type": "object",
-            "properties": {
-                "admin": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "customer.WorkspaceUpdateInput": {
-            "type": "object",
-            "required": [
-                "name"
-            ],
-            "properties": {
-                "avatar": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "db.Account": {
-            "type": "object",
-            "properties": {
-                "avatar": {
-                    "type": "string"
-                },
-                "balance": {
-                    "type": "number"
-                },
                 "created_at": {
                     "type": "string"
-                },
-                "currency": {
-                    "$ref": "#/definitions/db.Currency"
-                },
-                "currency_id": {
-                    "type": "integer"
                 },
                 "enable": {
                     "type": "boolean"
                 },
-                "expense_balance": {
-                    "type": "number"
-                },
                 "id": {
                     "type": "integer"
                 },
-                "income_balance": {
-                    "type": "number"
-                },
-                "initial_balance": {
-                    "type": "number"
-                },
-                "name": {
+                "last_login_date": {
                     "type": "string"
                 },
-                "owner": {
-                    "$ref": "#/definitions/db.User"
-                },
-                "owner_id": {
-                    "type": "integer"
-                },
-                "transactions": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/db.Transaction"
-                    }
-                },
-                "type": {
-                    "$ref": "#/definitions/db.AccountType"
-                },
-                "type_id": {
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "workspace": {
-                    "$ref": "#/definitions/db.Workspace"
-                },
-                "workspace_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "db.AccountType": {
-            "type": "object",
-            "properties": {
-                "accounts": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/db.Account"
-                    }
-                },
-                "avatar": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "meta": {
-                    "$ref": "#/definitions/db.Meta"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "workspace": {
-                    "$ref": "#/definitions/db.Workspace"
-                },
-                "workspace_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "db.Admin": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
+                "os_credentail": {
+                    "$ref": "#/definitions/db.OSCredential"
                 },
                 "updated_at": {
                     "type": "string"
@@ -7237,352 +3760,105 @@ var doc = `{
                 }
             }
         },
-        "db.Category": {
+        "ostack.FlavorCreateInput": {
             "type": "object",
+            "required": [
+                "name",
+                "ram",
+                "vcpus"
+            ],
             "properties": {
-                "avatar": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "id": {
+                "disk": {
                     "type": "integer"
                 },
-                "is_fee": {
+                "ephemeral": {
+                    "type": "integer"
+                },
+                "is_public": {
                     "type": "boolean"
                 },
-                "meta": {
-                    "$ref": "#/definitions/db.Meta"
-                },
                 "name": {
                     "type": "string"
                 },
-                "transactions": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/db.Transaction"
-                    }
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "workspace": {
-                    "$ref": "#/definitions/db.Workspace"
-                },
-                "workspace_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "db.Currency": {
-            "type": "object",
-            "properties": {
-                "accounts": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/db.Account"
-                    }
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "id": {
+                "ram": {
                     "type": "integer"
                 },
-                "meta": {
-                    "$ref": "#/definitions/db.Meta"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "short": {
-                    "type": "string"
-                },
-                "symbol": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "workspace": {
-                    "$ref": "#/definitions/db.Workspace"
-                },
-                "workspace_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "db.Meta": {
-            "type": "object",
-            "properties": {
-                "creator": {
-                    "$ref": "#/definitions/db.User"
-                },
-                "creator_id": {
-                    "type": "integer"
-                },
-                "updater": {
-                    "$ref": "#/definitions/db.User"
-                },
-                "updater_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "db.Place": {
-            "type": "object",
-            "properties": {
-                "avatar": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "location": {
-                    "type": "string"
-                },
-                "meta": {
-                    "$ref": "#/definitions/db.Meta"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "transactions": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/db.Transaction"
-                    }
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "workspace": {
-                    "$ref": "#/definitions/db.Workspace"
-                },
-                "workspace_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "db.Transaction": {
-            "type": "object",
-            "properties": {
-                "account": {
-                    "$ref": "#/definitions/db.Account"
-                },
-                "account_id": {
-                    "type": "integer"
-                },
-                "amount": {
+                "rx_tx_factor": {
                     "type": "number"
                 },
-                "category": {
-                    "$ref": "#/definitions/db.Category"
-                },
-                "category_id": {
+                "swap": {
                     "type": "integer"
                 },
-                "created_at": {
-                    "type": "string"
-                },
-                "date": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "meta": {
-                    "$ref": "#/definitions/db.Meta"
-                },
-                "place": {
-                    "$ref": "#/definitions/db.Place"
-                },
-                "place_id": {
-                    "type": "integer"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "workspace": {
-                    "$ref": "#/definitions/db.Workspace"
-                },
-                "workspace_id": {
+                "vcpus": {
                     "type": "integer"
                 }
             }
         },
-        "db.User": {
+        "ostack.KeypairCreateInput": {
             "type": "object",
+            "required": [
+                "name"
+            ],
             "properties": {
-                "accounts": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/db.Account"
-                    }
-                },
-                "avatar": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "enable": {
-                    "type": "boolean"
-                },
-                "firstname": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "last_login_date": {
-                    "type": "string"
-                },
-                "lastname": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "workspaces": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/db.WorkspaceMember"
-                    }
-                }
-            }
-        },
-        "db.Workspace": {
-            "type": "object",
-            "properties": {
-                "account_types": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/db.AccountType"
-                    }
-                },
-                "accounts": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/db.Account"
-                    }
-                },
-                "avatar": {
-                    "type": "string"
-                },
-                "categories": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/db.Category"
-                    }
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "currencies": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/db.Currency"
-                    }
-                },
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "invite_code": {
-                    "type": "string"
-                },
-                "members": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/db.WorkspaceMember"
-                    }
-                },
                 "name": {
                     "type": "string"
                 },
-                "owner": {
-                    "$ref": "#/definitions/db.User"
-                },
-                "owner_id": {
-                    "type": "integer"
-                },
-                "places": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/db.Place"
-                    }
-                },
-                "transactions": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/db.Transaction"
-                    }
-                },
-                "updated_at": {
+                "public_key": {
                     "type": "string"
                 }
             }
         },
-        "db.WorkspaceMember": {
+        "ostack.SecGroupCreateInput": {
             "type": "object",
+            "required": [
+                "name"
+            ],
             "properties": {
-                "id": {
-                    "type": "integer"
-                },
-                "role": {
+                "description": {
                     "type": "string"
                 },
-                "user": {
-                    "$ref": "#/definitions/db.User"
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "ostack.SecGroupCreateRuleInput": {
+            "type": "object",
+            "required": [
+                "sec_group_id"
+            ],
+            "properties": {
+                "cidr": {
+                    "type": "string"
                 },
-                "user_id": {
+                "from_port": {
                     "type": "integer"
                 },
-                "workspace": {
-                    "$ref": "#/definitions/db.Workspace"
+                "group_id": {
+                    "type": "string"
                 },
-                "workspace_id": {
+                "ip_protocol": {
+                    "type": "string"
+                },
+                "sec_group_id": {
+                    "type": "string"
+                },
+                "to_port": {
                     "type": "integer"
                 }
             }
         },
-        "structs.CursorResponse": {
+        "ostack.SecGroupUpdateInput": {
             "type": "object",
+            "required": [
+                "name"
+            ],
             "properties": {
-                "has_next": {
-                    "type": "boolean"
+                "description": {
+                    "type": "string"
                 },
-                "items": {}
-            }
-        },
-        "structs.PaginationResponse": {
-            "type": "object",
-            "properties": {
-                "items": {},
-                "total": {
-                    "type": "integer"
+                "name": {
+                    "type": "string"
                 }
             }
         },
@@ -7595,12 +3871,6 @@ var doc = `{
                 }
             }
         },
-        "structs.Sorter": {
-            "type": "object",
-            "additionalProperties": {
-                "type": "string"
-            }
-        },
         "structs.SuccessResponse": {
             "type": "object",
             "properties": {
@@ -7611,19 +3881,9 @@ var doc = `{
         }
     },
     "securityDefinitions": {
-        "Admin": {
+        "Authorization": {
             "type": "apiKey",
             "name": "Authorization",
-            "in": "header"
-        },
-        "Customer": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
-        },
-        "Workspace": {
-            "type": "apiKey",
-            "name": "Workspace",
             "in": "header"
         }
     }

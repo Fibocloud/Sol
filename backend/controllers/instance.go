@@ -81,11 +81,11 @@ func (co InstanceController) Get(c *gin.Context) {
 // @Summary   Create instance with image
 // @Tags      Instance
 // @Security  Authorization
-// @Param     input  body      ostack.InstanceCreateInput  true  "Input"
+// @Param     input  body      interface{}  true  "Input"
 // @Success   200  {object}  structs.ResponseBody{body=structs.SuccessResponse}
-// @Failure   400  {object}  structs.ResponseBody{body=object}
-// @Failure   401  {object}  structs.ResponseBody{body=object}
-// @Failure   500  {object}  structs.ResponseBody{body=object}
+// @Failure   400   {object}  structs.ResponseBody{body=object}
+// @Failure   401        {object}  structs.ResponseBody{body=object}
+// @Failure   500        {object}  structs.ResponseBody{body=object}
 // @Router    /instance/create [post]
 func (co InstanceController) Create(c *gin.Context) {
 	defer func() {
@@ -111,12 +111,12 @@ func (co InstanceController) Create(c *gin.Context) {
 // @Summary   Update instance
 // @Tags      Instance
 // @Security  Authorization
-// @Param     id     path      int                         true  "Instance ID"
-// @Param     input  body      ostack.InstanceUpdateInput  true  "Input"
+// @Param     id     path      int          true  "Instance ID"
+// @Param     input  body      interface{}  true  "Input"
 // @Success   200  {object}  structs.ResponseBody{body=structs.SuccessResponse}
-// @Failure   400   {object}  structs.ResponseBody{body=object}
-// @Failure   401        {object}  structs.ResponseBody{body=object}
-// @Failure   500        {object}  structs.ResponseBody{body=object}
+// @Failure   400  {object}  structs.ResponseBody{body=object}
+// @Failure   401  {object}  structs.ResponseBody{body=object}
+// @Failure   500  {object}  structs.ResponseBody{body=object}
 // @Router    /instance/update/{id} [put]
 func (co InstanceController) Update(c *gin.Context) {
 	defer func() {
